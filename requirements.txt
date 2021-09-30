@@ -1,0 +1,2 @@
+bitcoinlib==0.6.0
+pyln-client==0.10.1
