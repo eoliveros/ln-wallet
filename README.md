@@ -5,8 +5,8 @@
 
 # Requirements 🔧
 
-* Docker installed
-* docker-compose installed
+* [Docker installed](https://docs.docker.com/get-docker/)
+* [docker-compose installed](https://docs.docker.com/compose/install/)
 
 # Build:
 
