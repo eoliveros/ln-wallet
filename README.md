@@ -23,3 +23,8 @@
 # To stop:
 
 * ctrl-c then `deactivate` to deactivate the venv
+
+
+# Endpoints:
+
+* `/payment_form` returns and html page for a payment invoice form
