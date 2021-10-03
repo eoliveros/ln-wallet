@@ -27,4 +27,4 @@
 
 # Endpoints:
 
-* `/payment_form` returns and html page for a payment invoice form
+* `/payment_form` returns an html page for a payment invoice form
