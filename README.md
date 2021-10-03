@@ -8,7 +8,7 @@
 * [Docker installed](https://docs.docker.com/get-docker/)
 * [docker-compose installed](https://docs.docker.com/compose/install/)
 
-# To run docker compose:
+# To run docker lightning network image:
 
 * run `sudo docker-compose up`
 
@@ -16,6 +16,10 @@
 
 * It is recommended to run the Flask app in a virtual environment
 
-* `cd flask_app && /bin/activate`
-* `python3.7 -m pip install -r requirements.txt`
+* `cd env && source bin/activate`
+* `python3.8 -m pip install -r requirements.txt`
 *  `flask run` 
+
+# To stop:
+
+* ctrl-c then `deactivate` to deactivate the venv
