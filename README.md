@@ -15,3 +15,7 @@
 # For running the Flask app:
 
 * It is recommended to run the Flask app in a virtual environment
+
+* `cd flask_app && /bin/activate`
+* `python3.7 -m pip install -r requirements.txt`
+*  `flask run` 
