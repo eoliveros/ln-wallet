@@ -8,7 +8,10 @@
 * [Docker installed](https://docs.docker.com/get-docker/)
 * [docker-compose installed](https://docs.docker.com/compose/install/)
 
-# Build:
+# To run docker compose:
 
 * run `sudo docker-compose up`
 
+# For running the Flask app:
+
+* It is recommended to run the Flask app in a virtual environment
