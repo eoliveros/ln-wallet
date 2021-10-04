@@ -20,7 +20,7 @@
 
 * It is recommended to run the Flask app in a virtual environment
 * `virtualenv venv`
-* `cd env && source bin/activate`
+* `source venv/bin/activate`
 * `python3.8 -m pip install -r requirements.txt`
 *  `flask run` 
 
