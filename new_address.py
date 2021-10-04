@@ -1,3 +1,4 @@
+import secrets
 import hashlib
 
 from bitcoin.wallet import CBitcoinSecret, P2WPKHBitcoinAddress
@@ -5,8 +6,7 @@ from bitcoin.core import Hash160
 from bitcoin.core.script import CScript, OP_0
 
 def generate_wallet():
-    # Create the (in)famous correct brainwallet secret key.
-    h = hashlib.sha256(b'correct horse battery staple').digest()
+    h = secrets.token_bytes(32)
     seckey = CBitcoinSecret.from_secret_bytes(h)
 
     # Create an address from that private key.
