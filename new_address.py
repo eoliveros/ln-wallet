@@ -12,4 +12,4 @@ def generate_wallet():
     # Create an address from that private key.
     public_key = seckey.pub
     scriptPubKey = CScript([OP_0, Hash160(public_key)])
-    return P2WPKHBitcoinAddress.from_scriptPubKey(scriptPubKey)
+    return str(P2WPKHBitcoinAddress.from_scriptPubKey(scriptPubKey))
