@@ -32,3 +32,4 @@
 # Endpoints:
 
 * `/payment_form` returns an html page for a payment invoice form
+* `/new_address` returns an html page showing a generated bitcoin address

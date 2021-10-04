@@ -12,4 +12,4 @@ def payment_form():
 
 @app.route('/new_address')
 def new_address():
-    return generate_wallet()
+    return render_template("new_address.html", address=generate_wallet())
