@@ -1,4 +1,0 @@
-Flask==2.0.1
-Flask-Cors==3.0.10
-bitcoinlib
-pyln-client==0.10.1

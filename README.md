@@ -7,6 +7,10 @@
 
 * [Docker installed](https://docs.docker.com/get-docker/)
 * [docker-compose installed](https://docs.docker.com/compose/install/)
+* python3 installed
+* pip installed: `sudo apt-get install python3-pip` on Linux
+* vitualenv installed: `sudo pip3 install virtualenv` on Linux
+* [python-bitcoinlib requirements](https://pypi.org/project/python-bitcoinlib/)
 
 # To run docker lightning network image:
 
@@ -22,7 +26,7 @@
 
 # To stop:
 
-* ctrl-c then `deactivate` to deactivate the venv
+* ctrl-c to stop Flask then `deactivate` to deactivate the venv
 
 
 # Endpoints:
