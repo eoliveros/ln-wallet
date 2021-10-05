@@ -20,7 +20,8 @@
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
-							<h1>{{ address }}</h1>
+							<div id="qrcode"></div>
+							<h1 style="margin-top: 50px;">{{ address }}</h1>
 							<p>Save your newly-generated Bitcoin address</p>
 						</div>
 					</section>
@@ -43,8 +44,19 @@
 			<script src="{{ url_for('static',filename='assets/js/jquery.scrolly.min.js') }}"></script>
 			<script src="{{ url_for('static',filename='assets/js/browser.min.js') }}"></script>
 			<script src="{{ url_for('static',filename='assets/js/breakpoints.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 			<script src="{{ url_for('static',filename='assets/js/util.js') }}"></script>
 			<script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+			<script type="text/javascript">
+				var qrcode = new QRCode("qrcode", {
+					text: "{{ address }}",
+				    width: 400,
+				    height: 400,
+				    colorDark : "#000000",
+				    colorLight : "#ffffff",
+				    correctLevel : QRCode.CorrectLevel.H
+				});
+			</script>
 
 	</body>
 </html>
