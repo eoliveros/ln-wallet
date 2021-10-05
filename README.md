@@ -22,7 +22,7 @@
 * `virtualenv venv`
 * `source venv/bin/activate`
 * `python3.8 -m pip install -r requirements.txt`
-*  `flask run` 
+* `python app.py` 
 
 # To stop:
 
