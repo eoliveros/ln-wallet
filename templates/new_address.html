@@ -62,7 +62,11 @@
 				});
 				var exportButton = document.querySelector("#export-wallet-button");
                                 // Later include xpub, mnemonic etc
-				exportButton.setAttribute("href",  "data:text/plain;charset=utf-8," + encodeURIComponent("{{ wallet.publicAddress }}"));
+				exportButton.setAttribute("href",  "data:text/plain;charset=utf-8," + 
+					encodeURIComponent(`publicAddress:{{ wallet.publicAddress }}
+						\n privateKey: {{ wallet.seckey }}`
+					)
+				);
 				exportButton.setAttribute("download", "wallet-info.txt");
 			</script>
 
