@@ -13,7 +13,7 @@ def payment_form():
 @app.route('/new_address')
 def new_address():
     new_wallet = NewWallet()
-    return render_template("new_address.html", address=new_wallet.publicAddress)
+    return render_template("new_address.html", wallet=new_wallet)
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)
