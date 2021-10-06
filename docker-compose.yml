@@ -1,44 +1,81 @@
 version: "3"
 services:
   bitcoind:
-    image: nicolasdorier/docker-bitcoin:0.16.3
+    image: btcpayserver/bitcoin:22.0
     container_name: bitcoind
+    restart: unless-stopped
     environment:
+      BITCOIN_NETWORK: testnet
+      BITCOIN_WALLETDIR: "/walletdata"
       BITCOIN_EXTRA_ARGS: |
-        testnet=1
-        whitelist=0.0.0.0/0
         server=1
+        whitelist=0.0.0.0/0
         rpcuser=rpcuser
         rpcpassword=rpcpass
+        rpcbind=0.0.0.0:18332
+        settings=false
     expose:
       - "18332"
     ports:
       - "0.0.0.0:18333:18333"
     volumes:
       - "bitcoin_datadir:/data"
+      - "bitcoin_wallet_datadir:/walletdata"
 
   clightning_bitcoin:
-    image: elementsproject/lightningd
-    container_name: lightningd
-    command:
-      - --bitcoin-rpcconnect=bitcoind
-      - --bitcoin-rpcuser=rpcuser
-      - --bitcoin-rpcpassword=rpcpass
-      - --network=testnet
-      - --alias=myawesomenode
-      - --log-level=debug
+    image: btcpayserver/lightning:v0.10.1-2
+    container_name: btcpayserver_clightning_bitcoin
+    restart: unless-stopped
     environment:
-      EXPOSE_TCP: "true"
-    expose:
-      - "9735"
-    ports:
-      - "0.0.0.0:9735:9735"
+      LIGHTNINGD_NETWORK: testnet
+      LIGHTNINGD_CHAIN: btc
+      LIGHTNINGD_ALIAS: myawesomenode
+      LIGHTNINGD_PORT: 9735
+      LIGHTNINGD_OPT: |
+        bitcoin-datadir=/etc/bitcoin
+        bitcoin-rpcconnect=bitcoind
     volumes:
       - "clightning_bitcoin_datadir:/root/.lightning"
       - "bitcoin_datadir:/etc/bitcoin"
+    ports:
+      - "9735:9735"
     links:
       - bitcoind
 
+  clightning_bitcoin_charge:
+    image: shesek/lightning-charge:0.4.23-1-standalone
+    restart: unless-stopped
+    environment:
+      NETWORK: testnet
+      COOKIE_FILE: /data/.cookie
+      URL: ${BTCPAY_ROOTPATH:-/}lightning-charge/btc/
+      LN_NET_PATH: /etc/lightning
+      LN_NET: /etc/lightning
+    volumes:
+      - "clightning_bitcoin_datadir:/etc/lightning"
+      - "clightning_bitcoin_charge:/data"
+    expose:
+      - "9112"
+    links:
+      - clightning_bitcoin
+
+  clightning_bitcoin_spark:
+    image: shesek/spark-wallet:0.2.9-standalone
+    restart: unless-stopped
+    environment:
+      NETWORK: testnet
+      SPARK_OPT: --no-tls -C /data/.cookie
+    volumes:
+      - "clightning_bitcoin_datadir:/etc/lightning"
+      - "clightning_bitcoin_spark:/data"
+    links:
+      - clightning_bitcoin
+    expose:
+      - "9737"
+
 volumes:
   bitcoin_datadir:
+  bitcoin_wallet_datadir:
   clightning_bitcoin_datadir:
+  clightning_bitcoin_spark:
+  clightning_bitcoin_charge:
