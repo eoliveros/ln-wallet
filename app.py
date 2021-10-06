@@ -12,7 +12,8 @@ def payment_form():
 
 @app.route('/new_address')
 def new_address():
-    return render_template("new_address.html", address=generate_wallet())
+    new_wallet = NewWallet()
+    return render_template("new_address.html", address=new_wallet.publicAddress)
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)
