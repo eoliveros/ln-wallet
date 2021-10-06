@@ -53,7 +53,7 @@
 			<script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
 			<script type="text/javascript">
 				var qrcode = new QRCode("qrcode", {
-					text: "{{ address }}",
+					text: "{{ wallet.publicAddress }}",
 				    width: 400,
 				    height: 400,
 				    colorDark : "#000000",
