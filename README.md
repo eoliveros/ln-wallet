@@ -13,9 +13,11 @@
 * [python-bitcointx](https://pypi.org/project/python-bitcointx/)
 * libsecp256k1 (`sudo apt-get install libsecp256k1-0`)
 
-# To run docker lightning network image:
+# To run the docker images:
 
-* run `sudo docker-compose up`
+* `./build-docker-images.sh`
+* `sudo docker-compose up`
+* go to [`localhost`](http:/localhost) to see lightningd helper apps
 
 # For running the Flask app:
 
