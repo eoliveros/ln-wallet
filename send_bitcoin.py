@@ -4,19 +4,16 @@ Code grabbed from https://bitcoin.stackexchange.com/questions/24571/how-to-make-
 Will change later
 """
 
-from bitcoin.core import COIN, b2lx
-import bitcoin.wallet
-import bitcoin.rpc
-try:
-    # This moved between versions
-    from bitcoin.base58 import CBitcoinAddress
-except:
-    from bitcoin.wallet import CBitcoinAddress
+from bitcointx.core import coins_to_satoshi, b2lx
+import bitcointx.wallet
+import bitcointx.rpc
 
-rpc = bitcoin.rpc.Proxy()
-addr = CBitcoinAddress('1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T')
+rpc = bitcointx.rpc.RPCCaller(conf_file='bitcoin.conf')
 
-txid = rpc.sendtoaddress(addr, 0.001 * COIN)
+print(rpc.getnetworkinfo())
+
+addr = '1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T' # TODO - this is not a testnet address
+txid = rpc.sendtoaddress(addr, coins_to_satoshi(0.001))
 print(b2lx(txid))
 
 

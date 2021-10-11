@@ -10,7 +10,8 @@
 * python3 installed
 * pip installed: `sudo apt-get install python3-pip` on Linux
 * vitualenv installed: `sudo pip3 install virtualenv` on Linux
-* [python-bitcoinlib requirements](https://pypi.org/project/python-bitcoinlib/)
+* [python-bitcointx](https://pypi.org/project/python-bitcointx/)
+* libsecp256k1 (`sudo apt-get install libsecp256k1-0`)
 
 # To run docker lightning network image:
 
