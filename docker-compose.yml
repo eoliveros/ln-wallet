@@ -48,8 +48,8 @@ services:
     restart: unless-stopped
     environment:
       NETWORK: testnet
-      COOKIE_FILE: /data/.cookie
-      URL: ${BTCPAY_ROOTPATH:-/}lightning-charge/btc/
+      # TODO - set API_TOKEN a different way
+      API_TOKEN: test
       LN_NET_PATH: /etc/lightning
       LN_NET: /etc/lightning
     volumes:

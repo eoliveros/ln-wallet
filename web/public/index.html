@@ -1,14 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>LN Wallet Links</title>
-  </head>
-  <body>
-      <ul>
-          <li><a href="/spark">Spark Wallet</a> (user: test, pass: test)</li>
-      </ul>
-  </body>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>LN Wallet Links</title>
+    </head>
+    <body>
+        <ul>
+            <li><a href="/spark">Spark Wallet</a> (user: test, pass: test)</li>
+            <li>
+                Lightning Charge
+                <ul>
+                    <li><a href="#" onclick="info()">Info</a></li>
+                    <li><a href="#" onclick="invoices()">Invoices</a></li>
+                    <li>
+                        <form onsubmit="return invoice();">
+                            <input type="hidden" name="currency" value="NZD">
+                            <input id="amount" type="input" name="amount" placeholder="amount NZD">
+                            <input id="description" type="input" name="description" placeholder="description">
+                            <button type="submit">submit</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div id="result"></div>
+        <script>
+function baseUrl() {
+    return `${window.location.protocol}//${window.location.hostname}/charge`;
+}
+function basicAuth(user, pass) {
+    var cat = `${user}:${pass}`;
+    return `Basic ${btoa(cat)}`;
+}
+function get(endpoint) {
+    let headers = new Headers();
+    headers.append('Authorization', basicAuth('api-token', 'test'));
+    const init = {
+        method: 'GET',
+        headers: headers
+    };
+    return fetch(`${baseUrl()}/${endpoint}`, init);
+}
+function post(endpoint, params) {
+    let headers = new Headers();
+    headers.append('Authorization', basicAuth('api-token', 'test'));
+    let body = new URLSearchParams();
+    for (var key in params)
+        body.append(key, params[key]);
+    const init = {
+        method: 'POST',
+        headers: headers,
+        body: body
+    };
+    return fetch(`${baseUrl()}/${endpoint}`, init);
+}
+function setResult(text) {
+    document.getElementById('result').textContent = text;
+}
+function info() {
+    get('info').then(function(response) {
+        if (!response.ok) {
+            setResult(`request failed ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    }).then(function(text) {
+        setResult(text);
+    });
+}
+function invoices() {
+    get('invoices').then(function(response) {
+        if (!response.ok) {
+            setResult(`request failed ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    }).then(function(text) {
+        setResult(text);
+    });
+}
+function invoice() {
+    let amount = document.getElementById('amount').value;
+    let description = document.getElementById('description').value;
+    post('invoice', {currency: 'NZD', amount: amount, description: description}).then(function(response) {
+        if (!response.ok) {
+            setResult(`request failed ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    }).then(function(text) {
+        setResult(text);
+    });
+    return false;
+}
+        </script>
+    </body>
 </html>
