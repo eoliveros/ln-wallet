@@ -5,7 +5,6 @@ from flask_cors import CORS
 
 import utils
 from new_address import new_address
-from bitcoin_script import sending_bitcoin
 
 app = Flask(__name__)
 CORS(app)
