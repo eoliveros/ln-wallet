@@ -12,6 +12,13 @@
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/css/main.css') }}">
 		<noscript><link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/css/noscript.css') }}"></noscript>
 	</head>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 	<body class="is-preload">
 
 		<!-- Wrapper -->
