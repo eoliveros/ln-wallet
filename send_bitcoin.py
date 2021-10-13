@@ -5,10 +5,10 @@ Will change later
 """
 
 from bitcointx.core import coins_to_satoshi, b2lx
-import bitcointx.wallet
-import bitcointx.rpc
 
-rpc = bitcointx.rpc.RPCCaller(conf_file='bitcoin.conf')
+import utils
+
+rpc = utils.bitcoind_rpc()
 
 print(rpc.getnetworkinfo())
 

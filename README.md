@@ -11,7 +11,7 @@
 * pip installed: `sudo apt-get install python3-pip` on Linux
 * vitualenv installed: `sudo pip3 install virtualenv` on Linux
 * [python-bitcointx](https://pypi.org/project/python-bitcointx/)
-* libsecp256k1 (`sudo apt-get install libsecp256k1-0`)
+* libsecp256k1 (`sudo apt-get install libsecp256k1-0` or https://github.com/cuber/homebrew-libsecp256k1 on mac)
 
 # To run the docker images:
 

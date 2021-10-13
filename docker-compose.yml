@@ -76,10 +76,22 @@ services:
     expose:
       - "9737"
 
+  app:
+    image: app
+    container_name: app
+    restart: unless-stopped
+    links:
+      - clightning_bitcoin
+    expose:
+      - "5000"
+
   web:
     image: web
     container_name: web
     restart: unless-stopped
+    links:
+      - clightning_bitcoin
+      - app
     ports:
       - "0.0.0.0:80:80"
 
