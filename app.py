@@ -9,7 +9,6 @@ from bitcoin_script import sending_bitcoin
 
 app = Flask(__name__)
 CORS(app)
-#app.secret_key = 'this is a rand0m str1ng'
 
 if os.getenv("SECRET_KEY"):
         app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
