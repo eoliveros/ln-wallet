@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, request, redirect, flash, Markup
 from flask_cors import CORS
 
@@ -7,7 +9,10 @@ from bitcoin_script import sending_bitcoin
 
 app = Flask(__name__)
 CORS(app)
-app.secret_key = 'this is a rand0m str1ng'
+#app.secret_key = 'this is a rand0m str1ng'
+
+if os.getenv("SECRET_KEY"):
+        app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 @app.route('/')
 def index():
