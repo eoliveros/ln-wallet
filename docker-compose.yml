@@ -80,7 +80,10 @@ services:
     image: app
     container_name: app
     restart: unless-stopped
+    environment:
+      SERVICE_URL: http://rpcuser:rpcpass@bitcoind:18332
     links:
+      - bitcoind
       - clightning_bitcoin
     expose:
       - "5000"
