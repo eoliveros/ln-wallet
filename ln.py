@@ -6,9 +6,10 @@ import random
 
 class LightningInstance():
     def __init__(self):
+        # TODO - change to "/etc/lightning/lightning-rpc"
         self.instance = LightningRpc("/var/lib/docker/volumes/ln-wallet_clightning_bitcoin_datadir/_data/lightning-rpc")
 
-    def get_info():
+    def get_info(self):
         return self.instance.getinfo()
 
     def create_invoice(self, amount, msg):

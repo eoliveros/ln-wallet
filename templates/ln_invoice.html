@@ -5,7 +5,7 @@
 	const createInvoice = function() {
 		document.querySelector("section").innerHTML=`
 			<h2>Invoice Generated!</h2>
-			<p>{{ instance.create_invoice(100, "test") }}</p>
+			<p>{{ invoice }}</p>
 		`;
 	}
 </script>
@@ -24,6 +24,7 @@
             </div>
         </div>
         <ul class="actions">
+        <!-- TODO - this does not actually create an invoice, it just shows an invoice that was already created -->
 		<li class="button submit" onclick="createInvoice()">Create Invoice</li>
         </ul>
     </form>

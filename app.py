@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 import utils
 from new_address import new_address
-from ln_invoice import LightningInstance
+from ln import LightningInstance
 
 app = Flask(__name__)
 CORS(app)
@@ -33,7 +33,8 @@ def bitcoind_getwalletinfo_ep():
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
-    return 'not implemented'
+    info = LightningInstance().get_info()
+    return str(info)
 
 @app.route('/payment_form')
 def payment_form_ep():
@@ -61,7 +62,7 @@ def new_address_ep():
 @app.route('/ln_invoice', methods=['GET', 'POST'])
 def create_invoice():
     ln_instance = LightningInstance()
-    return render_template("ln_invoice.html", instance=ln_instance)
+    return render_template("ln_invoice.html", invoice=ln_instance.create_invoice(100, "test"))
 
 
 if __name__=='__main__':
