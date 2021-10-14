@@ -10,7 +10,12 @@ app = Flask(__name__)
 CORS(app)
 
 if os.getenv("SECRET_KEY"):
-        app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
+if os.getenv("BITCOIN_EXPLORER"):
+    app.config["BITCOIN_EXPLORER"] = os.getenv("BITCOIN_EXPLORER")
+else:
+    app.config["BITCOIN_EXPLORER"] = "https://testnet.bitcoinexplorer.org/tx"
 
 @app.route('/')
 def index():
@@ -32,18 +37,23 @@ def bitcoind_getinfo_ep():
 def lightningd_getinfo_ep():
     return 'not implemented'
 
-@app.route('/payment_form', methods=['GET', 'POST'])
+@app.route('/payment_form')
 def payment_form_ep():
+    return render_template("payment_form.html")
+
+@app.route('/send_form', methods=['GET', 'POST'])
+def send_form():
     if request.method == 'POST':
         address = request.form['address']
         amount = request.form['amount']
         message = request.form['message']
         try:
+            bitcoin_explorer = app.config["BITCOIN_EXPLORER"]
             txid = utils.bitcoind_rpc().sendtoaddress(address, amount)
-            flash(Markup(f'<a href="https://testnet.bitcoinexplorer.org/tx/{txid}">Transaction ID: {txid}</a>'), 'success')
+            flash(Markup(f'<a href="{bitcoin_explorer}/{txid}">Transaction ID: {txid}</a>'), 'success')
         except Exception as e:
             flash(Markup(e.args[0]['message']), "danger")
-    return render_template("payment_form.html")
+    return render_template("send_form.html")
 
 @app.route('/new_address')
 def new_address_ep():
