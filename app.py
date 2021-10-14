@@ -27,8 +27,24 @@ def bitcoind_getnetworkinfo_ep():
 
 @app.route('/bitcoind_getwalletinfo')
 def bitcoind_getwalletinfo_ep():
-    wallet_details = utils.bitcoind_rpc().getwalletinfo()
     return str(utils.bitcoind_rpc().getwalletinfo())
+
+@app.route('/bitcoind_getaddressesbylabel')
+def bitcoind_getaddressesbylabel_ep():
+    wallet_details = utils.bitcoind_rpc().getwalletinfo()
+    wallet_name = wallet_details["walletname"]
+    addresses = utils.bitcoind_rpc().getaddressesbylabel(f'{wallet_name}')
+    print(list(addresses.keys()))
+    print(addresses)
+    for addr in list(addresses.keys()):
+        return addr
+
+@app.route('/bitcoind_getnewaddress')
+def bitcoind_getnewaddress_ep():
+    wallet_details = utils.bitcoind_rpc().getwalletinfo()
+    wallet_name = wallet_details["walletname"]
+    address = utils.bitcoind_rpc().getnewaddress(f'{wallet_name}')
+    return address
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
