@@ -58,10 +58,15 @@ def new_address_ep():
     address = new_address()
     return render_template("new_address.html", address=address)
 
-@app.route('/ln_invoice', methods=['GET', 'POST'])
-def create_invoice():
+@app.route('/ln_invoice', methods=['GET'])
+def ln_invoice():
+    return render_template("ln_invoice.html")
+
+@app.route('/create_invoice/<int:amount>/<string:message>/')
+def create_invoice(amount, message):
     ln_instance = LightningInstance()
-    return render_template("ln_invoice.html", instance=ln_instance)
+    bolt11 = ln_instance.create_invoice(amount, message)["bolt11"]
+    return render_template("create_invoice.html", bolt11=bolt11)
 
 
 if __name__=='__main__':
