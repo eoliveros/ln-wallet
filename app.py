@@ -19,7 +19,7 @@ else:
 
 @app.route('/')
 def index():
-    return '<a href="/bitcoind_getnetworkinfo">bitcoind getnetworkinfo</a><br><a href="/bitcoind_getwalletinfo">bitcoind getwalletinfo</a><br><a href="/lightningd_getinfo">lightningd getinfo</a>'
+    return render_template("index.html")
 
 @app.route('/bitcoind_getnetworkinfo')
 def bitcoind_getnetworkinfo_ep():
@@ -27,11 +27,8 @@ def bitcoind_getnetworkinfo_ep():
 
 @app.route('/bitcoind_getwalletinfo')
 def bitcoind_getwalletinfo_ep():
+    wallet_details = utils.bitcoind_rpc().getwalletinfo()
     return str(utils.bitcoind_rpc().getwalletinfo())
-
-@app.route('/bitcoind_getwalletinfo')
-def bitcoind_getinfo_ep():
-    return utils.bitcoind_rpc().getwalletinfo()
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
