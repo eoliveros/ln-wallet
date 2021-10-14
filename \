@@ -4,7 +4,7 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script>
 	const createInvoice = function() {
-		var invoiceUrl = `/create_invoice/${document.querySelector('#email').value}/${document.querySelector('#name').value}`;
+		var invoiceUrl = `http://192.168.1.200:5000/create_invoice/${document.querySelector('#email').value}/${document.querySelector('#name').value}`;
 		console.log("called");
 		window.location = invoiceUrl;
 	}
@@ -15,19 +15,21 @@
 <h2>Create Invoice</h2>
 <p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
 <section>
-<div class="fields">
-    <div class="field half">
-	<label for="amount">Amount (Sats)</label>
-	<input type="text" name="amount" id="email" />
-    </div>
-    <div class="field half">
-	<label for="message">Message</label>
-	<input type="text" name="message" id="name" />
-    </div>
-</div>
-<ul class="actions">
-	<li> <a class="button submit" onclick="createInvoice()">Create Invoice</a></li>
-</ul>
+    <form>
+        <div class="fields">
+            <div class="field half">
+                <label for="amount">Amount (Sats)</label>
+                <input type="text" name="amount" id="email" />
+            </div>
+            <div class="field half">
+                <label for="message">Message</label>
+                <input type="text" name="message" id="name" />
+            </div>
+        </div>
+        <ul class="actions">
+		<li> <a class="button submit" onclick="createInvoice()">Create Invoice</a></li>
+        </ul>
+    </form>
 </section>
 {% endblock %}
 {% block footer %}

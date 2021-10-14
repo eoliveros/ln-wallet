@@ -28,8 +28,24 @@ def bitcoind_getnetworkinfo_ep():
 
 @app.route('/bitcoind_getwalletinfo')
 def bitcoind_getwalletinfo_ep():
-    wallet_details = utils.bitcoind_rpc().getwalletinfo()
     return str(utils.bitcoind_rpc().getwalletinfo())
+
+@app.route('/bitcoind_getaddressesbylabel')
+def bitcoind_getaddressesbylabel_ep():
+    wallet_details = utils.bitcoind_rpc().getwalletinfo()
+    wallet_name = wallet_details["walletname"]
+    addresses = utils.bitcoind_rpc().getaddressesbylabel(f'{wallet_name}')
+    print(list(addresses.keys()))
+    print(addresses)
+    for addr in list(addresses.keys()):
+        return addr
+
+@app.route('/bitcoind_getnewaddress')
+def bitcoind_getnewaddress_ep():
+    wallet_details = utils.bitcoind_rpc().getwalletinfo()
+    wallet_name = wallet_details["walletname"]
+    address = utils.bitcoind_rpc().getnewaddress(f'{wallet_name}')
+    return address
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
@@ -59,10 +75,15 @@ def new_address_ep():
     address = new_address()
     return render_template("new_address.html", address=address)
 
-@app.route('/ln_invoice', methods=['GET', 'POST'])
-def create_invoice():
+@app.route('/ln_invoice', methods=['GET'])
+def ln_invoice():
+    return render_template("ln_invoice.html")
+
+@app.route('/create_invoice/<int:amount>/<string:message>/')
+def create_invoice(amount, message):
     ln_instance = LightningInstance()
-    return render_template("ln_invoice.html", invoice=ln_instance.create_invoice(100, "test"))
+    bolt11 = ln_instance.create_invoice(amount, message)["bolt11"]
+    return render_template("create_invoice.html", bolt11=bolt11)
 
 
 if __name__=='__main__':
