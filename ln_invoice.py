@@ -1,25 +1,16 @@
 """
-Generate invoice on one daemon and pay it on the other
-Code grabbed from https://pypi.org/project/pyln-client/ example
-Will change later
+A class object that will be called on certain lightning-related endpoints
 """
 from pyln.client import LightningRpc
 import random
 
-# Create two instances of the LightningRpc object using two different c-lightning daemons on your computer
-l1 = LightningRpc("/tmp/lightning1/lightning-rpc")
-l5 = LightningRpc("/tmp/lightning5/lightning-rpc")
+class LightningInstance():
+    def __init__(self):
+        self.instance = LightningRpc("/var/lib/docker/volumes/ln-wallet_clightning_bitcoin_datadir/_data/lightning-rpc")
 
-info5 = l5.getinfo()
-print(info5)
+    def get_info():
+        return self.instance.getinfo()
 
-# Create invoice for test payment
-invoice = l5.invoice(100, "lbl{}".format(random.random()), "testpayment")
-print(invoice)
+    def create_invoice(self, amount, msg):
+        return self.instance.invoice(amount, "lbl{}".format(random.random()), msg)
 
-# Get route to l1
-route = l1.getroute(info5['id'], 100, 1)
-print(route)
-
-# Pay invoice
-print(l1.sendpay(route['route'], invoice['payment_hash']

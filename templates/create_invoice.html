@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Send Form{% endblock %}
+{% block content %}
+<h2> Invoice Generated! </h2>
+<p>{{ bolt11 }}</p>
+<section>
+	<div id="qrcode"></div>
+</section>
+{% endblock %}
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<script>
+	var qrcode = new QRCode("qrcode", {
+		text: "{{ bolt11 }}",
+		width: 400,
+		height: 400,
+		colorDark : "#000000",
+		colorLight : "#ffffff",
+		correctLevel : QRCode.CorrectLevel.H
+	});
+
+
+</script>
+{% endblock %}
+

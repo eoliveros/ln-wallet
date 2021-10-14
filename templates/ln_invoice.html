@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Send Form{% endblock %}
+{% block content %}
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<script>
+	const createInvoice = function() {
+		var invoiceUrl = `http://192.168.1.200:5000/create_invoice/${document.querySelector('#email').value}/${document.querySelector('#name').value}`;
+		console.log("called");
+		window.location = invoiceUrl;
+	}
+
+
+</script>
+
+<h2>Create Invoice</h2>
+<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+<section>
+<div class="fields">
+    <div class="field half">
+	<label for="amount">Amount (Sats)</label>
+	<input type="text" name="amount" id="email" />
+    </div>
+    <div class="field half">
+	<label for="message">Message</label>
+	<input type="text" name="message" id="name" />
+    </div>
+</div>
+<ul class="actions">
+	<li> <a class="button submit" onclick="createInvoice()">Create Invoice</a></li>
+</ul>
+</section>
+{% endblock %}
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}
