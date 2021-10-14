@@ -1,14 +1,28 @@
 {% extends "layout.html" %}
 {% block title %}Send Form{% endblock %}
 {% block content %}
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script>
 	const createInvoice = function() {
+		const bolt11 = `{{ instance.create_invoice(100, "test")["bolt11"] }}`;
 		document.querySelector("section").innerHTML=`
 			<h2>Invoice Generated!</h2>
-			<p>{{ instance.create_invoice(100, "test") }}</p>
+			<p>${bolt11}</p>
+			<div id="qrcode"></div>
 		`;
+		var qrcode = new QRCode("qrcode", {
+			text: bolt11,
+			width: 400,
+			height: 400,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
 	}
+
+
 </script>
+
 <h2>Create Invoice</h2>
 <p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
 <section>
