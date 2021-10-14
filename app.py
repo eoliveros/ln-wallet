@@ -5,6 +5,7 @@ from flask_cors import CORS
 
 import utils
 from new_address import new_address
+from ln_invoice import LightningInstance
 
 app = Flask(__name__)
 CORS(app)
@@ -56,6 +57,12 @@ def send_form():
 def new_address_ep():
     address = new_address()
     return render_template("new_address.html", address=address)
+
+@app.route('/ln_invoice', methods=['GET', 'POST'])
+def create_invoice():
+    ln_instance = LightningInstance()
+    return render_template("ln_invoice.html", instance=ln_instance)
+
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)

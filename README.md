@@ -36,3 +36,9 @@
 
 * `/payment_form` returns an html page for a payment invoice form
 * `/new_address` returns an html page showing a generated bitcoin address
+
+# Notes:
+
+So far I have to run `ln_invoice.py` as a priveleged user. To do this, I call `sudo ./venv/bin/python3 ln_invoice.py` as calling
+`sudo ln_invoice` whilst running venv will cause a module error as calling sudo inside venv uses the global/system python3 instead of
+the venv python3 so packages will be missing
