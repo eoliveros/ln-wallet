@@ -1,11 +1,47 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<a href="/bitcoind_getnetworkinfo">bitcoind getnetworkinfo</a><br>
-<a href="/bitcoind_getwalletinfo">bitcoind getwalletinfo</a><br>
-<a href="/lightningd_getinfo">lightningd getinfo</a><br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div>
+    <h2>DIAGNOSTIC</h2>
+    <ul>
+        <li>
+            <a href="/bitcoind_getnetworkinfo">bitcoind getnetworkinfo</a>
+        </li>
+        <li>
+            <a href="/bitcoind_getwalletinfo">bitcoind getwalletinfo</a>
+        </li>
+        <li>
+            <a href="/lightningd_getinfo">lightningd getinfo</a>
+        </li>
+    </ul>
+</div>
+<div>
+<h2>BTC</h2>
+    <ul>
+        <li>
+            <a href="/send_form">send form</a>
+        </li>
+        <li>
+            <a href="/new_address">new address</a>
+        </li>
+	<li>
+	    <a href="/bitcoind_getbalance">balance</a>
+	</li>
+    </ul>
+</div>
+<div>
+<h2>LIGHTNING</h2>
+    <ul>
+        <li>
+            <a href="/payment_form">payment form</a><br>
+        </li>
+        <li>
+            <a href="/ln_invoice">ln invoice</a><br>
+        </li>
+    </ul>
+</div>
 {% endblock %}
+
 {% block footer %}
     <div class="inner">
         <ul class="menu">
