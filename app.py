@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 import utils
 from new_address import new_address
-from ln_invoice import LightningInstance
+from ln import LightningInstance
 
 app = Flask(__name__)
 CORS(app)
@@ -49,7 +49,8 @@ def bitcoind_getnewaddress_ep():
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
-    return 'not implemented'
+    info = LightningInstance().get_info()
+    return str(info)
 
 @app.route('/payment_form')
 def payment_form_ep():

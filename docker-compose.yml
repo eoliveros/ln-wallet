@@ -82,6 +82,9 @@ services:
     restart: unless-stopped
     environment:
       SERVICE_URL: http://rpcuser:rpcpass@bitcoind:18332
+      RPC_FILE: /etc/lightning/lightning-rpc
+    volumes:
+      - "clightning_bitcoin_datadir:/etc/lightning"
     links:
       - bitcoind
       - clightning_bitcoin

@@ -4,7 +4,7 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script>
 	const createInvoice = function() {
-		var invoiceUrl = `http://192.168.1.200:5000/create_invoice/${document.querySelector('#email').value}/${document.querySelector('#name').value}`;
+		var invoiceUrl = `/create_invoice/${document.querySelector('#email').value}/${document.querySelector('#name').value}`;
 		console.log("called");
 		window.location = invoiceUrl;
 	}
