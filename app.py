@@ -45,7 +45,11 @@ def bitcoind_getnewaddress_ep():
     wallet_details = utils.bitcoind_rpc().getwalletinfo()
     wallet_name = wallet_details["walletname"]
     address = utils.bitcoind_rpc().getnewaddress(f'{wallet_name}')
-    return address
+    return render_template("bitcoin_address.html", address=address)
+
+@app.route('/bitcoind_getbalance')
+def bitcoind_getbalance_ep():
+    return str(utils.bitcoind_rpc().getbalance())
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
