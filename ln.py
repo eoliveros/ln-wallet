@@ -1,13 +1,17 @@
 """
 A class object that will be called on certain lightning-related endpoints
 """
-from pyln.client import LightningRpc
+import os
 import random
+
+from pyln.client import LightningRpc
 
 class LightningInstance():
     def __init__(self):
-        # TODO - change to "/etc/lightning/lightning-rpc"
-        self.instance = LightningRpc("/var/lib/docker/volumes/ln-wallet_clightning_bitcoin_datadir/_data/lightning-rpc")
+        if 'RPC_FILE' in os.environ:
+            self.instance = LightningRpc(os.environ['RPC_FILE'])
+        else:
+            self.instance = LightningRpc("/etc/lightning/lightning-rpc")
 
     def get_info(self):
         return self.instance.getinfo()
