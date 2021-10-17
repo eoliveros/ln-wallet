@@ -56,10 +56,6 @@ def lightningd_getinfo_ep():
     info = LightningInstance().get_info()
     return str(info)
 
-@app.route('/payment_form')
-def payment_form_ep():
-    return render_template("payment_form.html")
-
 @app.route('/send_form', methods=['GET', 'POST'])
 def send_form():
     if request.method == 'POST':
