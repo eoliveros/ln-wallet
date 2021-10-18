@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Send Multiple TX{% endblock %}
+
+{% block content %}
+<h2>Send to Multiple addresses</h2>
+<p>
+To send to multiple addresses you need to type it in this format:<br>
+bitcoin_address:bitcoin_amount,bitcoin_address:bitcoin_amount,.....
+</p>
+<section>
+    <form method="post" action="#">
+        <div class="fields">
+            <div class="field half">
+                <label for="address_amount">Address:Amount (₿)</label>
+                <input type="text" name="address_amount" id="address_amount" />
+            </div>
+	</div>
+        <a href="" class="button submit">Send Bitcoin</a>
+    </form>
+</section>
+{% endblock %}
+
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}

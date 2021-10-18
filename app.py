@@ -70,6 +70,18 @@ def send_form():
             flash(Markup(e.args[0]['message']), "danger")
     return render_template("send_form.html")
 
+@app.route('/send_multiple', methods=['GET', 'POST'])
+def send_multiple():
+    if request.method == 'POST':
+        address_amount = request.form['address_amount']
+        try:
+            bitcoin_explorer = app.config["BITCOIN_EXPLORER"]
+            txid = utils.bitcoind_rpc().sendmany("", {"tb1ql24zhwrdl4cgxqx0zaecznlyevdk9msuhlw6uf": 0.00001}) # WORKING kinda?
+            flash(Markup(f'<a href="{bitcoin_explorer}/{txid}">Transaction ID: {txid}</a>'), 'success')
+        except Exception as e:
+            flash(Markup(e.args[0]['message']), "danger")
+    return render_template('send_multiple.html')
+
 @app.route('/new_address')
 def new_address_ep():
     address = new_address()
