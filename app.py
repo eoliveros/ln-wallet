@@ -102,7 +102,6 @@ def send_pay(bolt11):
     ln_instance = LightningInstance()
     return ln_instance.send_invoice(bolt11)
 
-
-
 if __name__=='__main__':
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    flask_debug = 'DEBUG' in os.environ
+    app.run(host='0.0.0.0', debug=flask_debug, port=5000)
