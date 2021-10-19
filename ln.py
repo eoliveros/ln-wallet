@@ -17,10 +17,17 @@ class LightningInstance():
         return self.instance.getinfo()
 
     def create_invoice(self, amount, msg):
+        # create a LN invoice
         return self.instance.invoice(amount, "lbl{}".format(random.random()), msg)
 
     def send_invoice(self, bolt11):
+        # pay a bolt11 invoice
         return self.instance.pay(bolt11)
 
     def payment_status(self, bolt11string):
+        # show the status of a specific paid bolt11 invoice
         return self.instance.listpays(bolt11=bolt11string)
+
+    def list_paid(self):
+        # show the status of all paid bolt11 invoice
+        return self.instance.listpays()

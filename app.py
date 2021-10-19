@@ -117,6 +117,11 @@ def get_status(bolt11):
     status = ln_instance.payment_status(bolt11)
     return render_template("status.html", status=status)
 
+@app.route('/paid', methods=['GET'])
+def paid():
+    ln_instance = LightningInstance()
+    return ln_instance.list_paid()
+
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ
     app.run(host='0.0.0.0', debug=flask_debug, port=5000)
