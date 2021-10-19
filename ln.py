@@ -20,9 +20,7 @@ class LightningInstance():
         return self.instance.invoice(amount, "lbl{}".format(random.random()), msg)
 
     def send_invoice(self, bolt11):
-        decoded_bolt11 = self.instance.decodepay(bolt11)
-        route = self.instance.getroute(decoded_bolt11["routes"][0][0]["pubkey"], decoded_bolt11["msatoshi"], 1)
-        return self.instance.sendpay(route["route"], decoded_bolt11["payment_hash"])
+        return self.instance.pay(bolt11)
 
     def payment_status(self, bolt11string):
         return self.instance.listpays(bolt11=bolt11string)

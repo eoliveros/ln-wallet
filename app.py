@@ -100,8 +100,8 @@ def create_invoice(amount, message):
     bolt11 = ln_instance.create_invoice(amount, message)["bolt11"]
     return render_template("create_invoice.html", bolt11=bolt11)
 
-@app.route('/send_pay/<string:bolt11>')
-def send_pay(bolt11):
+@app.route('/pay/<string:bolt11>')
+def pay(bolt11):
     ln_instance = LightningInstance()
     return ln_instance.send_invoice(bolt11)
 
