@@ -111,10 +111,11 @@ def pay(bolt11):
     return render_template("pay.html", sent_invoice=sent_invoice)
 
 @app.route('/status/<string:bolt11>')
-def status(bolt11):
+def get_status(bolt11):
     ln_instance = LightningInstance()
     ln_instance.payment_status
-    return ln_instance.payment_status(bolt11)
+    status = ln_instance.payment_status(bolt11)
+    return render_template("status.html", status=status)
 
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ
