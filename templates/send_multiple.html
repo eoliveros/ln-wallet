@@ -6,19 +6,22 @@
 <h2>Send to Multiple addresses</h2>
 <p>
 To send to multiple addresses you need to type it in this format:<br>
-bitcoin_address:bitcoin_amount,bitcoin_address:bitcoin_amount,.....
+<br>
+{"bitcoin_address":bitcoin_amount,"bitcoin_address":bitcoin_amount,.....}
+<br>
 </p>
 <section>
     <form method="post" action="#">
         <div class="fields">
             <div class="field half">
-                <label for="address_amount">Address:Amount (₿)</label>
+                <label for="address_amount">Address: Amount(₿)</label>
                 <input type="text" name="address_amount" id="address_amount" />
             </div>
 	</div>
         <a href="" class="button submit">Send Bitcoin</a>
     </form>
 </section>
+<br><br><br>
 {% endblock %}
 
 {% block footer %}
