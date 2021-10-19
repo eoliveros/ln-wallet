@@ -31,3 +31,6 @@ class LightningInstance():
     def list_paid(self):
         # show the status of all paid bolt11 invoice
         return self.instance.listpays()
+
+    def open_channel(self, node_id, amount):
+        return self.instance.fundchannel_start(node_id, amount)

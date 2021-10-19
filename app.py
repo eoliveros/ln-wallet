@@ -123,6 +123,12 @@ def paid():
     paid_invoices = ln_instance.list_paid()
     return render_template("paid.html", paid_invoices=paid_invoices)
 
+@app.route('/open_channel/<string:node_id>/<int:amount>', methods=['GET'])
+def open_channel(node_id, amount):
+    ln_instance = LightningInstance()
+    return ln_instance.open_channel(node_id, amount)
+
+
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ
     app.run(host='0.0.0.0', debug=flask_debug, port=5000)
