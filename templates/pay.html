@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Hyperspace by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/main.css') }}" />
+		<noscript><link rel="stylesheet" href="{{ url_for('static',filename='assets/css/noscript.css') }}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+							<h1 style="margin-top: 50px;" class="payment-status"></h1>
+							<h1 style="margin-top: 50px;" class="sent-msats"></h1>
+						        <ul class="actions">
+								<li><a href="" class="button submit" id="export-wallet-button">Save Receipt</a></li>
+						        </ul>
+
+						</div>
+					</section>
+
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href='http://html5up.net'>HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/jquery.scrolly.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/browser.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/breakpoints.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/util.js') }}"></script>
+			<script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
+			<script type="text/javascript">
+				var receiptButton = document.querySelector("#export-wallet-button");
+                                // Later include xpub, mnemonic etc
+				receiptButton.setAttribute("href",  "data:text/plain;charset=utf-8," + 
+					encodeURIComponent(`{{ sent_invoice }}`
+					)
+				);
+				receiptButton.setAttribute("download", "ln-receipt.txt");
+				var paymentStatus = "{{ sent_invoice.status }}";
+				// Capitalize payment status and insert into DOM
+				document.querySelector(".payment-status").innerText = paymentStatus.charAt(0).toUpperCase() + paymentStatus.slice(1);
+				document.querySelector(".sent-msats").innerText = "Paid a total of {{ sent_invoice.msatoshi_sent }} msats";
+			</script>
+
+	</body>
+</html>
