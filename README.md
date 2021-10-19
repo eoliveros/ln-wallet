@@ -41,5 +41,7 @@
 * `/pay/<bolt11>` pays a bolt11 invoice and returns an html page of the result
 * `/paid` returns an html page of the status of all paid bolt11 invoices
 * `/status/<bolt11>` returns an html page of the status of a specific bolt11 invoice payment
+* `/channel_opener` returns an html page for opening LN channels
+* `/open_channel/<node_id>/<amount>` opens a LN channel with node_id
 
 

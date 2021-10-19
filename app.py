@@ -123,6 +123,10 @@ def paid():
     paid_invoices = ln_instance.list_paid()
     return render_template("paid.html", paid_invoices=paid_invoices)
 
+@app.route('/channel_opener', methods=['GET'])
+def channel_opener():
+    return render_template("channel_opener.html")
+
 @app.route('/open_channel/<string:node_id>/<int:amount>', methods=['GET'])
 def open_channel(node_id, amount):
     ln_instance = LightningInstance()
