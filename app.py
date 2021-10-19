@@ -120,7 +120,8 @@ def get_status(bolt11):
 @app.route('/paid', methods=['GET'])
 def paid():
     ln_instance = LightningInstance()
-    return ln_instance.list_paid()
+    paid_invoices = ln_instance.list_paid()
+    return render_template("paid.html", paid_invoices=paid_invoices)
 
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ

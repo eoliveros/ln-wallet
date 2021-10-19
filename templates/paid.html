@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}Send Form{% endblock %}
+{% block content %}
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<h2>Paid Invoices</h2>
+<div class="features">
+	{% for invoice in paid_invoices.pays %}
+		<section>
+			<span class="icon solid major fa-code"></span>
+			<h3> {{ invoice }} </h3>
+			<h3>Amount sent: {{ invoice.amount_sent_msat }} </h3>
+			<p>Payment status: {{ invoice.status }} </p>
+			<p>Invoice created at: {{ invoice.created_at }} </p>
+		</section>
+	{% endfor %}
+</div>
+{% endblock %}
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}
