@@ -6,8 +6,7 @@
 <div class="features">
 	{% for invoice in paid_invoices.pays %}
 		<section>
-			<span class="icon solid major fa-code"></span>
-			<h3> {{ invoice }} </h3>
+			<span class="icon solid major fa-bolt"></span>
 			<h3>Amount sent: {{ invoice.amount_sent_msat }} </h3>
 			<p>Payment status: {{ invoice.status }} </p>
 			<p>Invoice created at: {{ invoice.created_at }} </p>
