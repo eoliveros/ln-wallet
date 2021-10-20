@@ -25,11 +25,11 @@ def bitcoind_getbalance_ep():
 def index():
     return render_template("index.html", btc_balance=bitcoind_getbalance_ep())
 
-@app.route('/bitcoind_listtransactions')
-def bitcoind_listtransactions_ep():
+@app.route('/list_txs')
+def list_txs():
     ln_instance = LightningInstance()
-    list_transactions = ln_instance.list_txs()
-    return render_template("list_transactions.html", list_transactions=list_transactions["transactions"], bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    transactions = ln_instance.list_txs()
+    return render_template("list_transactions.html", transactions=transactions["transactions"], bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 
 @app.route('/bitcoind_getnetworkinfo')

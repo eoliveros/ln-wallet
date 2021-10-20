@@ -9,7 +9,7 @@
             <th>Transaction id</th>
             <th>Outputs</th>
         </tr>
-        {% for tx in list_transactions %}
+        {% for tx in transactions %}
 		<tr>
 		<td><a href="{{ bitcoin_explorer }}/block-height/{{ tx.blockheight }}">{{ tx.blockheight }}</a></td>
 		<td><a href="{{ bitcoin_explorer }}/tx/{{ tx.hash }}">{{ tx.hash }}<a></td>
