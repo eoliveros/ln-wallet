@@ -5,20 +5,20 @@
     <h2>BTC TRANSACTIONS</h2>
     <table>
         <tr>
-            <th>time</th>
-            <th>address</th>
-	    <th>category</th>
-            <th>transaction id</th>
-            <th>amount</th>
+            <th>Blockheight</th>
+            <th>Transaction id</th>
+            <th>Outputs</th>
         </tr>
-        {% for txs in list_transactions %}
-	<tr>
-        <td>{{ txs.time }}</td>
-	<td>{{ txs.address }}</td>
-	<td>{{ txs.category }}</td>
-	<td><a href="{{ bitcoin_explorer }}/{{ txs.txid }}">{{ txs.txid }}<a></td>
-	<td>{{ txs.amount }}</td>
-	</tr>
+        {% for tx in list_transactions %}
+		<tr>
+		<td><a href="{{ bitcoin_explorer }}/block-height/{{ tx.blockheight }}">{{ tx.blockheight }}</a></td>
+		<td><a href="{{ bitcoin_explorer }}/tx/{{ tx.hash }}">{{ tx.hash }}<a></td>
+		<td>
+		{% for output in tx.outputs %}
+			<a href="{{ bitcoin_explorer }}/tx/{{ tx.hash }}">{{ output.msat }},<a>
+		{% endfor %}
+		</td>
+		</tr>
         {% endfor %}
     </table>
 </div>

@@ -38,3 +38,6 @@ class LightningInstance():
     def new_address(self):
         # return a bech32 address
         return self.instance.newaddr(addresstype='bech32')
+
+    def list_txs(self):
+        return self.instance.listtransactions()

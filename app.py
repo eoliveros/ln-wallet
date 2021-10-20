@@ -16,7 +16,7 @@ if os.getenv("SECRET_KEY"):
 if os.getenv("BITCOIN_EXPLORER"):
     app.config["BITCOIN_EXPLORER"] = os.getenv("BITCOIN_EXPLORER")
 else:
-    app.config["BITCOIN_EXPLORER"] = "https://testnet.bitcoinexplorer.org/tx"
+    app.config["BITCOIN_EXPLORER"] = "https://testnet.bitcoinexplorer.org"
 
 def bitcoind_getbalance_ep():
     return str(utils.bitcoind_rpc().getbalance())
@@ -27,8 +27,10 @@ def index():
 
 @app.route('/bitcoind_listtransactions')
 def bitcoind_listtransactions_ep():
-    list_transactions = utils.bitcoind_rpc().listtransactions("*", 20)
-    return render_template("list_transactions.html", list_transactions=list_transactions, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    ln_instance = LightningInstance()
+    list_transactions = ln_instance.list_txs()
+    return render_template("list_transactions.html", list_transactions=list_transactions["transactions"], bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+
 
 @app.route('/bitcoind_getnetworkinfo')
 def bitcoind_getnetworkinfo_ep():
