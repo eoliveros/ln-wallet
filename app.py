@@ -19,9 +19,24 @@ if os.getenv("BITCOIN_EXPLORER"):
 else:
     app.config["BITCOIN_EXPLORER"] = "https://testnet.bitcoinexplorer.org/tx"
 
+def bitcoind_getbalance_ep():
+    return str(utils.bitcoind_rpc().getbalance())
+
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", btc_balance=bitcoind_getbalance_ep())
+
+@app.route('/bitcoind_listtransactions')
+def bitcoind_listtransactions_ep():
+    list_transactions = utils.bitcoind_rpc().listtransactions("*", 20)
+    #for rows in list_transactions:
+    #    time = rows['time']
+    #    address = rows['address']
+    #    txid = rows['txid']
+    #    amount = rows['amount']
+    #    print(f'{time} {address} {txid} {amount}')
+    print(list_transactions)
+    return render_template("list_transactions.html", list_transactions=list_transactions, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 @app.route('/bitcoind_getnetworkinfo')
 def bitcoind_getnetworkinfo_ep():
@@ -47,10 +62,6 @@ def bitcoind_getnewaddress_ep():
     wallet_name = wallet_details["walletname"]
     address = utils.bitcoind_rpc().getnewaddress(f'{wallet_name}')
     return render_template("bitcoin_address.html", address=address)
-
-@app.route('/bitcoind_getbalance')
-def bitcoind_getbalance_ep():
-    return str(utils.bitcoind_rpc().getbalance())
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():

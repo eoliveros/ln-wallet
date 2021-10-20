@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Transaction List{% endblock %}
+{% block content %}
+<div>
+    <h2>BTC TRANSACTIONS</h2>
+    <table>
+        <tr>
+            <th>time</th>
+            <th>address</th>
+	    <th>category</th>
+            <th>transaction id</th>
+            <th>amount</th>
+        </tr>
+        {% for txs in list_transactions %}
+	<tr>
+        <td>{{ txs.time }}</td>
+	<td>{{ txs.address }}</td>
+	<td>{{ txs.category }}</td>
+	<td><a href="{{ bitcoin_explorer }}/{{ txs.txid }}">{{ txs.txid }}<a></td>
+	<td>{{ txs.amount }}</td>
+	</tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}
