@@ -5,7 +5,6 @@ from flask import Flask, render_template, request, redirect, flash, Markup
 from flask_cors import CORS
 
 import utils
-from new_address import new_address
 from ln import LightningInstance
 
 app = Flask(__name__)
@@ -91,7 +90,8 @@ def send_multiple():
 
 @app.route('/new_address')
 def new_address_ep():
-    address = new_address()
+    ln_instance = LightningInstance()
+    address = ln_instance.new_address()
     return render_template("new_address.html", address=address)
 
 @app.route('/ln_invoice', methods=['GET'])

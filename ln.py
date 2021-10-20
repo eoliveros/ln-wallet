@@ -34,3 +34,7 @@ class LightningInstance():
 
     def open_channel(self, node_id, amount):
         return self.instance.fundchannel_start(node_id, amount)
+
+    def new_address(self):
+        # return a bech32 address
+        return self.instance.newaddr(addresstype='bech32')

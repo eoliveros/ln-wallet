@@ -21,7 +21,7 @@
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
 							<div id="qrcode"></div>
-							<h1 style="margin-top: 50px;">{{ address }}</h1>
+							<h1 style="margin-top: 50px;">{{ address.bech32 }}</h1>
 							<p>Save your newly-generated Bitcoin address</p>
 						        <ul class="actions">
 								<li><a href="" class="button submit" id="export-wallet-button">Export Wallet Info</a></li>
@@ -53,7 +53,7 @@
 			<script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
 			<script type="text/javascript">
 				var qrcode = new QRCode("qrcode", {
-					text: "{{ address }}",
+					text: "{{ address.bech32 }}",
 				    width: 400,
 				    height: 400,
 				    colorDark : "#000000",
@@ -63,7 +63,7 @@
 				var exportButton = document.querySelector("#export-wallet-button");
                                 // Later include xpub, mnemonic etc
 				exportButton.setAttribute("href",  "data:text/plain;charset=utf-8," + 
-					encodeURIComponent(`publicAddress:{{ address }}`
+					encodeURIComponent(`publicAddress:{{ address.bech32 }}`
 					)
 				);
 				exportButton.setAttribute("download", "wallet-info.txt");
