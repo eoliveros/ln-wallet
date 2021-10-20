@@ -29,13 +29,6 @@ def index():
 @app.route('/bitcoind_listtransactions')
 def bitcoind_listtransactions_ep():
     list_transactions = utils.bitcoind_rpc().listtransactions("*", 20)
-    #for rows in list_transactions:
-    #    time = rows['time']
-    #    address = rows['address']
-    #    txid = rows['txid']
-    #    amount = rows['amount']
-    #    print(f'{time} {address} {txid} {amount}')
-    print(list_transactions)
     return render_template("list_transactions.html", list_transactions=list_transactions, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 @app.route('/bitcoind_getnetworkinfo')
