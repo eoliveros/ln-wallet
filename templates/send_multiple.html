@@ -4,16 +4,19 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script>
 	const expand = function() {
-		document.querySelector("#payment-fields").innerHTML+=`
+		document.querySelector("#payment-fields").insertAdjacentHTML(
+		"afterend",
+
+		`
 			<label for="address">Address</label>
-			<input type="text" name="address" id="name" />
+			<input type="text" name="address" id="name" class="input-element"/>
 			<label for="amount">Amount (₿)</label>
-			<input type="text" name="amount" id="email" />
-		`;
+			<input type="text" name="amount" id="email" class="input-element"/>
+		`);
 	}
 	const multiWithdraw = function() {
 		var requestLoad = [];
-		var paymentFields = document.getElementsByClassName('input-element');
+		var paymentFields = document.getElementsByClassName("input-element");
 		for(var i = 0; i < paymentFields.length; i+=2) {
 			var outputObj = {
 				[`${paymentFields[i].value}`] : `${paymentFields[i+1].value}btc`
