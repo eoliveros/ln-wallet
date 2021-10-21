@@ -81,9 +81,9 @@ def send_multiple():
 @app.route('/multi_withdraw', methods=['GET', 'POST'])
 def multi_withdraw():
     ln_instance = LightningInstance()
-    return request.json
-    #outputs_dict = json.loads(request.json["address_amount"])
-    #return ln_instance.multi_withdraw(outputs_dict)
+    #return request.json
+    outputs_dict = request.json["address_amount"]
+    return ln_instance.multi_withdraw(outputs_dict)
 
 
 @app.route('/new_address')
