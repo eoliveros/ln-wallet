@@ -29,7 +29,8 @@ def index():
 def list_txs():
     ln_instance = LightningInstance()
     transactions = ln_instance.list_txs()
-    return render_template("list_transactions.html", transactions=transactions["transactions"], bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    sorted_txs = sorted(transactions["transactions"], key=lambda d: d["blockheight"], reverse=True)
+    return render_template("list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 
 @app.route('/bitcoind_getnetworkinfo')
@@ -49,13 +50,6 @@ def bitcoind_getaddressesbylabel_ep():
     print(addresses)
     for addr in list(addresses.keys()):
         return addr
-
-@app.route('/bitcoind_getnewaddress')
-def bitcoind_getnewaddress_ep():
-    wallet_details = utils.bitcoind_rpc().getwalletinfo()
-    wallet_name = wallet_details["walletname"]
-    address = utils.bitcoind_rpc().getnewaddress(f'{wallet_name}')
-    return render_template("bitcoin_address.html", address=address)
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
