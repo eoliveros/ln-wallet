@@ -1,29 +1,60 @@
 {% extends "layout.html" %}
-
-{% block title %}Send Multiple TX{% endblock %}
-
+{% block title %}Multi Withdraw{% endblock %}
 {% block content %}
-<h2>Send to Multiple addresses</h2>
-<p>
-To send to multiple addresses you need to type it in this format:<br>
-<br>
-{"bitcoin_address":bitcoin_amount,"bitcoin_address":bitcoin_amount,.....}
-<br>
-</p>
-<section>
-    <form method="post" action="#">
-        <div class="fields">
-            <div class="field half">
-                <label for="address_amount">Address: Amount(₿)</label>
-                <input type="text" name="address_amount" id="address_amount" />
-            </div>
-	</div>
-        <a href="" class="button submit">Send Bitcoin</a>
-    </form>
-</section>
-<br><br><br>
-{% endblock %}
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<script>
+	const expand = function() {
+		document.querySelector("#payment-fields").innerHTML+=`
+			<label for="address">Address</label>
+			<input type="text" name="address" id="name" />
+			<label for="amount">Amount (₿)</label>
+			<input type="text" name="amount" id="email" />
+		`;
+	}
+	const multiWithdraw = function() {
+		var requestLoad = [];
+		var paymentFields = document.getElementsByClassName('input-element');
+		for(var i = 0; i < paymentFields.length; i+=2) {
+			var outputObj = {
+				[`${paymentFields[i].value}`] : `${paymentFields[i+1].value}btc`
+			};
+			requestLoad.push(outputObj);
 
+		}
+		var requestLoadString = JSON.stringify({"address_amount" : requestLoad});
+		fetch('/multi_withdraw', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: requestLoadString,
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log('Success:', data);
+		});
+
+	}
+
+
+</script>
+
+<h2>Send Multiple</h2>
+<section>
+<div class="fields">
+    <div class="field half" id="payment-fields">
+	<label for="address">Address</label>
+	<input type="text" name="address" id="name" class="input-element"/>
+	<label for="amount">Amount (₿)</label>
+	<input type="text" name="amount" id="email" class="input-element"/>
+    </div>
+</div>
+<ul class="actions">
+	<li> <a class="button submit" onclick="expand()">Add Output</a></li>
+	<li> <a class="button submit" onclick="multiWithdraw()">Pay Invoice</a></li>
+</ul>
+</section>
+{% endblock %}
 {% block footer %}
     <div class="inner">
         <ul class="menu">

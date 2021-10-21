@@ -41,3 +41,7 @@ class LightningInstance():
 
     def list_txs(self):
         return self.instance.listtransactions()
+
+    def multi_withdraw(self, outputs_dict):
+        # outputs is in form {"address" : amount}
+        return self.instance.multiwithdraw(outputs_dict)

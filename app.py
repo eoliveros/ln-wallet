@@ -73,16 +73,18 @@ def send_form():
             flash(Markup(e.args[0]['message']), "danger")
     return render_template("send_form.html")
 
-@app.route('/send_multiple', methods=['GET', 'POST'])
+@app.route('/send_multiple')
 def send_multiple():
-    if request.method == 'POST':
-        try:
-            bitcoin_explorer = app.config["BITCOIN_EXPLORER"]
-            txid = utils.bitcoind_rpc().sendmany("", json.loads(request.form['address_amount']))
-            flash(Markup(f'<a href="{bitcoin_explorer}/{txid}">Transaction ID: {txid}</a>'), 'success')
-        except Exception as e:
-            flash(Markup(e.args[0]['message']), "danger")
     return render_template('send_multiple.html')
+
+
+@app.route('/multi_withdraw', methods=['GET', 'POST'])
+def multi_withdraw():
+    ln_instance = LightningInstance()
+    return request.json
+    #outputs_dict = json.loads(request.json["address_amount"])
+    #return ln_instance.multi_withdraw(outputs_dict)
+
 
 @app.route('/new_address')
 def new_address_ep():
