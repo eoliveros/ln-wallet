@@ -56,23 +56,6 @@ def lightningd_getinfo_ep():
     info = LightningInstance().get_info()
     return str(info)
 
-@app.route('/send_form', methods=['GET', 'POST'])
-def send_form():
-    if request.method == 'POST':
-        address = str(request.form['address'])
-        amount = request.form['amount']
-        message = request.form['message']
-        address_amount = f"{{\"{address}\": {amount}}}"
-        try:
-            bitcoin_explorer = app.config["BITCOIN_EXPLORER"]
-            txid = utils.bitcoind_rpc().sendtoaddress(address, amount)
-            ### CAN USE SENDMANY(BELOW) OR SENDTOADDRESS(ABOVE)
-            #txid = utils.bitcoind_rpc().sendmany("", json.loads(address_amount))
-            flash(Markup(f'<a href="{bitcoin_explorer}/{txid}">Transaction ID: {txid}</a>'), 'success')
-        except Exception as e:
-            flash(Markup(e.args[0]['message']), "danger")
-    return render_template("send_form.html")
-
 @app.route('/send_multiple')
 def send_multiple():
     return render_template('send_multiple.html')
