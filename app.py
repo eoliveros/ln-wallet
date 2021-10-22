@@ -105,7 +105,7 @@ def get_status(bolt11):
 def invoices():
     ln_instance = LightningInstance()
     paid_invoices = ln_instance.list_paid()
-    return render_template("paid.html", paid_invoices=paid_invoices)
+    return render_template("invoices.html", paid_invoices=paid_invoices)
 
 @app.route('/channel_opener', methods=['GET'])
 def channel_opener():

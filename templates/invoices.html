@@ -2,7 +2,7 @@
 {% block title %}Send Form{% endblock %}
 {% block content %}
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
-<h2>Paid Invoices</h2>
+<h2>Invoice History</h2>
 <div class="features">
 	{% for invoice in paid_invoices.pays %}
 		<section>
