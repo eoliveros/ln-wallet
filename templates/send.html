@@ -2,6 +2,8 @@
 {% block title %}Multi Withdraw{% endblock %}
 {% block content %}
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
+<script src="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}"></script>
 <script>
 	const expand = function() {
 		document.querySelector("#payment-fields").insertAdjacentHTML(
@@ -35,6 +37,11 @@
 		.then(response => response.text())
 		.then(data => {
 			console.log('Success:', data);
+			Swal.fire({
+				icon: 'success',
+				title: 'Sent!',
+				html: `<a href="https://blockstream.info/testnet/tx/${JSON.parse(data).txid}">${JSON.parse(data).txid}</a>`
+			})
 		});
 
 	}
