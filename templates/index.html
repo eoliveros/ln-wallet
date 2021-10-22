@@ -4,7 +4,10 @@
 <div>
     <h2>BALANCES</h2>
     <ul>
-	Bitcoin: {{ btc_balance }}(₿)
+	confirmed on-chain balance: {{ funds_dict.funds_onchain }}msats
+    </ul>
+    <ul>
+	ln-channels balance: {{ funds_dict.funds_channel }}msats
     </ul>
 </div>
 <div>

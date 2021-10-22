@@ -18,12 +18,11 @@ if os.getenv("BITCOIN_EXPLORER"):
 else:
     app.config["BITCOIN_EXPLORER"] = "https://testnet.bitcoinexplorer.org"
 
-def bitcoind_getbalance_ep():
-    return str(utils.bitcoind_rpc().getbalance())
-
 @app.route('/')
 def index():
-    return render_template("index.html", btc_balance=bitcoind_getbalance_ep())
+    ln_instance = LightningInstance()
+    funds_dict = ln_instance.list_funds()
+    return render_template("index.html", funds_dict=funds_dict)
 
 @app.route('/list_txs')
 def list_txs():
