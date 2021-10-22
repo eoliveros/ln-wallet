@@ -40,7 +40,7 @@
 			Swal.fire({
 				icon: 'success',
 				title: 'Sent!',
-				html: `<a href="https://blockstream.info/testnet/tx/${JSON.parse(data).txid}">${JSON.parse(data).txid}</a>`
+				html: `<a href="{{ bitcoin_explorer }}/tx/${JSON.parse(data).txid}">View Transaction</a>`
 			})
 		});
 

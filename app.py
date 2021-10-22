@@ -58,7 +58,7 @@ def lightningd_getinfo_ep():
 
 @app.route('/send')
 def send():
-    return render_template('send.html')
+    return render_template('send.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 
 @app.route('/withdraw', methods=['GET', 'POST'])
