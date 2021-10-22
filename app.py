@@ -56,15 +56,14 @@ def lightningd_getinfo_ep():
     info = LightningInstance().get_info()
     return str(info)
 
-@app.route('/send_multiple')
-def send_multiple():
-    return render_template('send_multiple.html')
+@app.route('/send')
+def send():
+    return render_template('send.html')
 
 
-@app.route('/multi_withdraw', methods=['GET', 'POST'])
-def multi_withdraw():
+@app.route('/withdraw', methods=['GET', 'POST'])
+def withdraw():
     ln_instance = LightningInstance()
-    #return request.json
     outputs_dict = request.json["address_amount"]
     return ln_instance.multi_withdraw(outputs_dict)
 
@@ -102,8 +101,8 @@ def get_status(bolt11):
     status = ln_instance.payment_status(bolt11)
     return render_template("status.html", status=status)
 
-@app.route('/paid', methods=['GET'])
-def paid():
+@app.route('/invoices', methods=['GET'])
+def invoices():
     ln_instance = LightningInstance()
     paid_invoices = ln_instance.list_paid()
     return render_template("paid.html", paid_invoices=paid_invoices)
