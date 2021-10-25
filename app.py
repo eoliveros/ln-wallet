@@ -4,7 +4,6 @@ import json
 from flask import Flask, render_template, request, redirect, flash, Markup
 from flask_cors import CORS
 
-import utils
 from ln import LightningInstance
 
 app = Flask(__name__)
@@ -31,24 +30,6 @@ def list_txs():
     sorted_txs = sorted(transactions["transactions"], key=lambda d: d["blockheight"], reverse=True)
     return render_template("list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
-
-@app.route('/bitcoind_getnetworkinfo')
-def bitcoind_getnetworkinfo_ep():
-    return str(utils.bitcoind_rpc().getnetworkinfo())
-
-@app.route('/bitcoind_getwalletinfo')
-def bitcoind_getwalletinfo_ep():
-    return str(utils.bitcoind_rpc().getwalletinfo())
-
-@app.route('/bitcoind_getaddressesbylabel')
-def bitcoind_getaddressesbylabel_ep():
-    wallet_details = utils.bitcoind_rpc().getwalletinfo()
-    wallet_name = wallet_details["walletname"]
-    addresses = utils.bitcoind_rpc().getaddressesbylabel(f'{wallet_name}')
-    print(list(addresses.keys()))
-    print(addresses)
-    for addr in list(addresses.keys()):
-        return addr
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
