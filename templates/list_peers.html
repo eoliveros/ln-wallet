@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block title %}Peers{% endblock %}
+{% block content %}
+<div>
+    <h2>Peers</h2>
+    <table>
+        <tr>
+            <th>Node Id</th>
+        </tr>
+        {% for peer in peers %}
+		<tr>
+			<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
+		</tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}

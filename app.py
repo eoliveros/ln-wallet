@@ -33,7 +33,8 @@ def list_txs():
 @app.route('/list_peers')
 def list_channels():
     ln_instance = LightningInstance()
-    return ln_instance.list_peers()
+    peers = ln_instance.list_peers()["peers"]
+    return render_template("list_peers.html", peers = peers)
 
 
 @app.route('/lightningd_getinfo')
