@@ -1,7 +1,7 @@
 import os
 import json
 
-from flask import Flask, render_template, request, redirect, flash, Markup, redirect, url_for
+from flask import Flask, render_template, request, redirect, flash, Markup, url_for
 from flask_cors import CORS
 
 from ln import LightningInstance
