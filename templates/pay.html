@@ -54,14 +54,14 @@
 				var receiptButton = document.querySelector("#export-wallet-button");
                                 // Later include xpub, mnemonic etc
 				receiptButton.setAttribute("href",  "data:text/plain;charset=utf-8," + 
-					encodeURIComponent(`{{ sent_invoice }}`
+					encodeURIComponent(`{{ invoice_result }}`
 					)
 				);
 				receiptButton.setAttribute("download", "ln-receipt.txt");
-				var paymentStatus = "{{ sent_invoice.status }}";
+				var paymentStatus = "{{ invoice_result.status }}";
 				// Capitalize payment status and insert into DOM
 				document.querySelector(".payment-status").innerText = paymentStatus.charAt(0).toUpperCase() + paymentStatus.slice(1);
-				document.querySelector(".sent-msats").innerText = "Paid a total of {{ sent_invoice.msatoshi_sent }} msats";
+				document.querySelector(".sent-msats").innerText = "Paid a total of {{ invoice_result.msatoshi_sent }} msats";
 			</script>
 
 	</body>

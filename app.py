@@ -1,7 +1,7 @@
 import os
 import json
 
-from flask import Flask, render_template, request, redirect, flash, Markup
+from flask import Flask, render_template, request, redirect, flash, Markup, redirect, url_for
 from flask_cors import CORS
 
 from ln import LightningInstance
@@ -76,8 +76,17 @@ def pay_invoice():
 @app.route('/pay/<string:bolt11>')
 def pay(bolt11):
     ln_instance = LightningInstance()
-    sent_invoice = ln_instance.send_invoice(bolt11)
-    return render_template("pay.html", sent_invoice=sent_invoice)
+    try:
+        invoice_result = ln_instance.send_invoice(bolt11)
+        return render_template("pay.html", invoice_result=invoice_result)
+
+    except:
+        return redirect(url_for('pay_error'))
+
+
+@app.route('/pay_error')
+def pay_error():
+    return "lightning invoice is invalid"
 
 @app.route('/status/<string:bolt11>')
 def get_status(bolt11):
