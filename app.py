@@ -45,7 +45,12 @@ def send():
 def withdraw():
     ln_instance = LightningInstance()
     outputs_dict = request.json["address_amount"]
-    return ln_instance.multi_withdraw(outputs_dict)
+    try:
+        tx_result = ln_instance.multi_withdraw(outputs_dict)
+    except:
+        tx_result = "error"
+
+    return tx_result
 
 
 @app.route('/new_address')

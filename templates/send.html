@@ -36,12 +36,21 @@
 		})
 		.then(response => response.text())
 		.then(data => {
-			console.log('Success:', data);
-			Swal.fire({
-				icon: 'success',
-				title: 'Sent!',
-				html: `<a href="{{ bitcoin_explorer }}/tx/${JSON.parse(data).txid}">View Transaction</a>`
-			})
+			if (data !== "error") {
+				console.log('Success:', data);
+				Swal.fire({
+					icon: 'success',
+					title: 'Sent!',
+					html: `<a href="{{ bitcoin_explorer }}/tx/${JSON.parse(data).txid}">View Transaction</a>`
+				})
+			} else {
+
+				Swal.fire({
+					icon: 'error',
+					title: 'Transaction Failed!',
+					text: 'Check you entered a correct address & amount'
+				})
+			}
 		});
 
 	}
@@ -61,7 +70,7 @@
 </div>
 <ul class="actions">
 	<li> <a class="button submit" onclick="expand()">Add Output</a></li>
-	<li> <a class="button submit" onclick="multiWithdraw()">Pay Invoice</a></li>
+	<li> <a class="button submit" onclick="multiWithdraw()">Send</a></li>
 </ul>
 </section>
 {% endblock %}
