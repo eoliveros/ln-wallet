@@ -81,12 +81,12 @@ def pay(bolt11):
         return render_template("pay.html", invoice_result=invoice_result)
 
     except:
-        return redirect(url_for('pay_error'))
+        return redirect(url_for("pay_error"))
 
 
 @app.route('/pay_error')
 def pay_error():
-    return "lightning invoice is invalid"
+    return render_template("pay_error.html")
 
 @app.route('/status/<string:bolt11>')
 def get_status(bolt11):

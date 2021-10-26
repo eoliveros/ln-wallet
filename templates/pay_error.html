@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Send Form{% endblock %}
+{% block content %}
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<script>
+	const redirect = function() {
+		window.location = '/pay_invoice';
+	}
+
+
+</script>
+
+<h2>Error</h2>
+<p>Looks like you entered a wrong payment invoice</p>
+<section>
+<ul class="actions">
+	<li> <a class="button submit" onclick="redirect()">Try Again</a></li>
+</ul>
+</section>
+{% endblock %}
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}
