@@ -30,6 +30,11 @@ def list_txs():
     sorted_txs = sorted(transactions["transactions"], key=lambda d: d["blockheight"], reverse=True)
     return render_template("list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
+@app.route('/list_channels')
+def list_channels():
+    ln_instance = LightningInstance()
+    return ln_instance.list_channels()
+
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
