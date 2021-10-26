@@ -10,7 +10,6 @@
 * python3 installed
 * pip installed: `sudo apt-get install python3-pip` on Linux
 * vitualenv installed: `sudo pip3 install virtualenv` on Linux
-* [python-bitcointx](https://pypi.org/project/python-bitcointx/)
 * libsecp256k1 (`sudo apt-get install libsecp256k1-0` or https://github.com/cuber/homebrew-libsecp256k1 on mac)
 
 # To run the docker images:
@@ -34,12 +33,13 @@
 
 # Endpoints:
 
-* `/payment_form` returns an html page for a payment invoice form
 * `/new_address` returns an html page showing a generated bitcoin address
 * `/ln_invoice` returns an html page for creating LN invoices
+* `/send` returns an html page for sending onchain
 * `/pay_invoice` returns an html page for paying LN invoices
 * `/pay/<bolt11>` pays a bolt11 invoice and returns an html page of the result
-* `/paid` returns an html page of the status of all paid bolt11 invoices
+* `/list_txs` returns an html page of of all onchain history
+* `/invoices` returns an html page of the status of all paid bolt11 invoices
 * `/status/<bolt11>` returns an html page of the status of a specific bolt11 invoice payment
 * `/channel_opener` returns an html page for opening LN channels
 * `/open_channel/<node_id>/<amount>` opens a LN channel with node_id
