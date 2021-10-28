@@ -4,11 +4,12 @@
 <div>
     <h2>BALANCES</h2>
     <ul>
-	confirmed on-chain balance: {{ funds_dict.funds_onchain }}msats
+	confirmed on-chain balance(sats): {{ funds_dict.sats_onchain }} sats
     </ul>
     <ul>
-	ln-channels balance: {{ funds_dict.funds_channel }}msats
+	ln-channels balance(sats): {{ funds_dict.sats_channel }} sats
     </ul>
+    {{ funds_dict }}
 </div>
 <div>
     <h2>DIAGNOSTIC</h2>

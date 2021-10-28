@@ -55,11 +55,13 @@ class LightningInstance():
         funds_onchain = 0
         for i in range(len(funds_dict["channels"])):
             funds_channel += int(str(funds_dict["channels"][i]["our_amount_msat"]).split("msat", 1)[0])
+            sats_channel = int(funds_channel / 1000)
 
         for i in range(len(funds_dict["outputs"])):
             if funds_dict["outputs"][i]["status"] == "confirmed":
                 funds_onchain += int(str(funds_dict["outputs"][i]["amount_msat"]).split("msat", 1)[0])
+                sats_onchain = int(funds_onchain / 1000)
 
-        return({"funds_channel" : funds_channel, "funds_onchain" : funds_onchain})
+        return({"funds_channel" : funds_channel, "funds_onchain" : funds_onchain, "sats_channel" : sats_channel, "sats_onchain" : sats_onchain})
 
 
