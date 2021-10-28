@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Multi Withdraw{% endblock %}
+{% block title %}Send Bitcoin{% endblock %}
 {% block content %}
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
@@ -8,7 +8,6 @@
 	const expand = function() {
 		document.querySelector("#payment-fields").insertAdjacentHTML(
 		"afterend",
-
 		`
 			<label for="address">Address</label>
 			<input type="text" name="address" id="name" class="input-element"/>
@@ -24,7 +23,6 @@
 				[`${paymentFields[i].value}`] : `${paymentFields[i+1].value}btc`
 			};
 			requestLoad.push(outputObj);
-
 		}
 		var requestLoadString = JSON.stringify({"address_amount" : requestLoad});
 		fetch('/withdraw', {
@@ -52,12 +50,8 @@
 				})
 			}
 		});
-
 	}
-
-
 </script>
-
 <h2>Send Multiple</h2>
 <section>
 <div class="fields">

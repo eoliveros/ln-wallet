@@ -42,9 +42,9 @@ def lightningd_getinfo_ep():
     info = LightningInstance().get_info()
     return str(info)
 
-@app.route('/send')
+@app.route('/send_bitcoin')
 def send():
-    return render_template('send.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 
 @app.route('/withdraw', methods=['GET', 'POST'])
