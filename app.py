@@ -43,7 +43,7 @@ def lightningd_getinfo_ep():
     return str(info)
 
 @app.route('/send_bitcoin')
-def send():
+def send_bitcoin():
     return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 
