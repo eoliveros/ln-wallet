@@ -23,10 +23,6 @@ def index():
     funds_dict = ln_instance.list_funds()
     return render_template("index.html", funds_dict=funds_dict)
 
-@app.route('/layout_new')
-def layout_new():
-    return render_template("layout-mod.html")
-
 @app.route('/list_txs')
 def list_txs():
     ln_instance = LightningInstance()
