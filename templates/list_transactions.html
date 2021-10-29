@@ -15,12 +15,15 @@
 		<td><a href="{{ bitcoin_explorer }}/tx/{{ tx.hash }}">{{ tx.hash }}<a></td>
 		<td>
 		{% for output in tx.outputs %}
-			<a href="{{ bitcoin_explorer }}/tx/{{ tx.hash }}">{{ output.msat }},<a>
+			<a href="{{ bitcoin_explorer }}/tx/{{ tx.hash }}">{{ output.sats }},<a>
 		{% endfor %}
 		</td>
 		</tr>
         {% endfor %}
     </table>
+    {% for tx in transactions %}
+        {{ tx }}
+    {% endfor %}
 </div>
 {% endblock %}
 

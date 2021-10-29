@@ -23,11 +23,19 @@ def index():
     funds_dict = ln_instance.list_funds()
     return render_template("index.html", funds_dict=funds_dict)
 
+@app.route('/layout_new')
+def layout_new():
+    return render_template("layout-mod.html")
+
 @app.route('/list_txs')
 def list_txs():
     ln_instance = LightningInstance()
     transactions = ln_instance.list_txs()
     sorted_txs = sorted(transactions["transactions"], key=lambda d: d["blockheight"], reverse=True)
+    for tx in transactions["transactions"]:
+        for output in tx["outputs"]:
+            output["sats"] = int(output["msat"] / 1000)
+            output.update({"sats": str(output["sats"])+" satoshi"})
     return render_template("list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 @app.route('/list_peers')
@@ -35,7 +43,6 @@ def list_channels():
     ln_instance = LightningInstance()
     peers = ln_instance.list_peers()["peers"]
     return render_template("list_peers.html", peers = peers)
-
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
@@ -46,7 +53,6 @@ def lightningd_getinfo_ep():
 def send_bitcoin():
     return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
-
 @app.route('/withdraw', methods=['GET', 'POST'])
 def withdraw():
     ln_instance = LightningInstance()
@@ -55,9 +61,7 @@ def withdraw():
         tx_result = ln_instance.multi_withdraw(outputs_dict)
     except:
         tx_result = "error"
-
     return tx_result
-
 
 @app.route('/new_address')
 def new_address_ep():
@@ -85,10 +89,8 @@ def pay(bolt11):
     try:
         invoice_result = ln_instance.send_invoice(bolt11)
         return render_template("pay.html", invoice_result=invoice_result)
-
     except:
         return redirect(url_for("pay_error"))
-
 
 @app.route('/pay_error')
 def pay_error():
