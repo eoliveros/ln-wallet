@@ -1,0 +1,105 @@
+{% extends "layout-new.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div>
+    <h2>BALANCES</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>confirmed on-chain balance</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>ln-channels balance</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <p>{{ funds_dict.sats_onchain }} sats</p>
+            </div>
+            <div class="col-sm-4">
+                <p>{{ funds_dict.sats_channel }} sats</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <h2>DIAGNOSTIC</h2>
+    <ul>
+        <li>
+            <a href="/lightningd_getinfo">lightningd getinfo</a>
+        </li>
+    </ul>
+</div>
+<div>
+<h2>BTC</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>send bitcoin</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>new address</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>transaction history</h4>
+            </div>
+        </div>
+    </div>
+<!--`
+    <ul>
+        <li>
+            <a href="/send_bitcoin">send_bitcoin</a>
+        </li>
+        <li>
+            <a href="/new_address">new address</a>
+        </li>
+        <li>
+            <a href="/list_txs">transaction history</a>
+        </li>
+    </ul>
+-->
+</div>
+<div>
+<h2>LIGHTNING</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <h4>Generate Invoice</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>Pay Invoice</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>Invoice History</h4>
+            </div>
+            <div class="col-sm-4">
+                <h4>Open a channel</h4>
+            </div>
+        </div>
+    </div>
+    <!--
+    <ul>
+        <li>
+            <a href="/ln_invoice">generate invoice</a><br>
+        </li>
+        <li>
+            <a href="/pay_invoice">pay invoice</a><br>
+        </li>
+        <li>
+            <a href="/invoices">invoice history</a><br>
+        </li>
+        <li>
+            <a href="/channel_opener">open a channel</a><br>
+        </li>
+    </ula>
+    -->
+</div>
+{% endblock %}
+
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}
