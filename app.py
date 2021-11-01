@@ -95,7 +95,6 @@ def pay_error():
 @app.route('/status/<string:bolt11>')
 def get_status(bolt11):
     ln_instance = LightningInstance()
-    ln_instance.payment_status
     status = ln_instance.payment_status(bolt11)
     return render_template("status.html", status=status)
 
@@ -113,6 +112,13 @@ def channel_opener():
 def open_channel(node_id, amount):
     ln_instance = LightningInstance()
     return ln_instance.open_channel(node_id, amount)
+
+@app.route('/decode_pay/<string:bolt11>')
+def decode_pay(bolt11):
+    ln_instance = LightningInstance()
+    decodedpay = ln_instance.decode_pay(bolt11)
+    #msat_string = request.json["amount_msat"]
+    return decodedpay
 
 
 if __name__=='__main__':
