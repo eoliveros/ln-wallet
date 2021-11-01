@@ -84,7 +84,7 @@ def ln_invoice():
 @app.route('/create_invoice/<int:amount>/<string:message>/')
 def create_invoice(amount, message):
     ln_instance = LightningInstance()
-    bolt11 = ln_instance.create_invoice(amount, message)["bolt11"]
+    bolt11 = ln_instance.create_invoice(int(amount*1000), message)["bolt11"]
     return render_template("create_invoice.html", bolt11=bolt11)
 
 @app.route('/pay_invoice', methods=['GET'])
@@ -129,7 +129,6 @@ def open_channel(node_id, amount):
 def decode_pay(bolt11):
     ln_instance = LightningInstance()
     decodedpay = ln_instance.decode_pay(bolt11)
-    #msat_string = request.json["amount_msat"]
     return decodedpay
 
 
