@@ -18,38 +18,54 @@
 	const multiWithdraw = function() {
 		var requestLoad = [];
 		var paymentFields = document.getElementsByClassName("input-element");
+		var totalBtc = 0;
 		for(var i = 0; i < paymentFields.length; i+=2) {
 			var outputObj = {
 				[`${paymentFields[i].value}`] : `${paymentFields[i+1].value}btc`
 			};
 			requestLoad.push(outputObj);
+			totalBtc += parseFloat(paymentFields[i+1].value);
 		}
-		var requestLoadString = JSON.stringify({"address_amount" : requestLoad});
-		fetch('/withdraw', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			},
-			body: requestLoadString,
-		})
-		.then(response => response.text())
-		.then(data => {
-			if (data !== "error") {
-				console.log('Success:', data);
-				Swal.fire({
-					icon: 'success',
-					title: 'Sent!',
-					html: `<a href="{{ bitcoin_explorer }}/tx/${JSON.parse(data).txid}">View Transaction</a>`
-				})
-			} else {
 
-				Swal.fire({
-					icon: 'error',
-					title: 'Transaction Failed!',
-					text: 'Check you entered a correct address & amount'
+		Swal.fire({
+			title: 'Confirm Payment',
+			text: `Total: ₿${totalBtc}`,
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Confirm'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				var requestLoadString = JSON.stringify({"address_amount" : requestLoad});
+				fetch('/withdraw', {
+					method: 'POST',
+					headers: {
+					  'Content-Type': 'application/json',
+					},
+					body: requestLoadString,
 				})
+				.then(response => response.text())
+				.then(data => {
+					if (data !== "error") {
+						console.log('Success:', data);
+						Swal.fire({
+							icon: 'success',
+							title: 'Sent!',
+							html: `<a href="{{ bitcoin_explorer }}/tx/${JSON.parse(data).txid}">View Transaction</a>`
+						})
+					} else {
+
+						Swal.fire({
+							icon: 'error',
+							title: 'Transaction Failed!',
+							text: 'Check you entered a correct address & amount'
+						})
+					}
+				});
 			}
 		});
+
 	}
 </script>
 <h2>Send Bitcoin</h2>
