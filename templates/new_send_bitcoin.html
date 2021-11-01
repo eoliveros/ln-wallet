@@ -1,0 +1,58 @@
+{% extends "layout-new.html" %}
+{% block title %}Send Bitcoin{% endblock %}
+{% block head %}
+    {{ super () }}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+	            // add row
+	            $("#addRow").click(function () {
+			                var html = '';
+			                html += '<div id="inputFormRow">';
+			                html += '<div class="input-group mb-3">';
+			                html += '<input type="text" name="title[]" class="form-control m-input" placeholder="Enter title" autocomplete="off">';
+			                html += '<div class="input-group-append">';
+			                html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+			                html += '</div>';
+			                html += '</div>';
+
+			                $('#newRow').append(html);
+			            });
+
+    </script>
+{% endblock %}
+{% block content %}
+<h2>Send Bitcoin</h2>
+<form method="post" action="">
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="inputFormRow">
+                <div class="input-group mb-3">
+		    <div class="input-group-prepend">
+			<span class="input-group-text">Address</span>
+		    </div>
+                    <input type="text" name="title[]" class="form-control m-input" placeholder="Enter address" autocomplete="off">
+		    <div class="input-group-prepend">
+			<span class="input-group-text">Amount</span>
+		    </div>
+                    <input type="text" name="title[]" class="form-control m-input" placeholder="Enter amount" autocomplete="off">
+                    <div class="input-group-append">                
+                        <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="newRow"></div>
+            <button id="addRow" type="button" class="btn btn-info">Add Row</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
+{% block footer %}
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+{% endblock %}

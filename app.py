@@ -23,6 +23,18 @@ def index():
     funds_dict = ln_instance.list_funds()
     return render_template("index.html", funds_dict=funds_dict)
 
+### ERICK trying to create a new layout with bootstrap.
+@app.route('/new_index')
+def new_index():
+    ln_instance = LightningInstance()
+    funds_dict = ln_instance.list_funds()
+    return render_template("new_index.html", funds_dict=funds_dict)
+
+@app.route('/new_send_bitcoin')
+def new_send_bitcoin():
+    return render_template('new_send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+###
+
 @app.route('/list_txs')
 def list_txs():
     ln_instance = LightningInstance()
