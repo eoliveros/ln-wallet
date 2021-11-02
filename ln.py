@@ -23,7 +23,7 @@ class LightningInstance():
     def send_invoice(self, bolt11):
         # pay a bolt11 invoice
         invoice_result = self.instance.pay(bolt11)
-        invoice_result["msatoshi_sent"] = int(invoice_result["msatoshi_sent"] / 1000)
+        invoice_result["sats_sent"] = int(invoice_result["msatoshi_sent"] / 1000)
         return invoice_result
 
     def payment_status(self, bolt11string):
