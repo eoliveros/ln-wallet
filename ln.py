@@ -71,3 +71,6 @@ class LightningInstance():
         amount_sats = int(int(str(bolt11_result["amount_msat"]).split("msat", 1)[0]) / 1000)
         return {"amount" : amount_sats, "description" : bolt11_result["description"], "payee" : bolt11_result["payee"] }
 
+    def notifications(self):
+        return self.instance.notifications(True)
+

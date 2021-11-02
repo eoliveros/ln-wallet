@@ -131,6 +131,11 @@ def decode_pay(bolt11):
     decodedpay = ln_instance.decode_pay(bolt11)
     return decodedpay
 
+@app.route('/notifications')
+def wait_any():
+    ln_instance = LightningInstance()
+    return ln_instance.notifications()
+
 
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ

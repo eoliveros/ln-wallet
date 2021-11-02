@@ -1,8 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}Send Form{% endblock %}
 {% block content %}
+<script>
+	const copyInvoice = function() {
+		navigator.clipboard.writeText("{{ bolt11 }}");
+	}
+</script>
 <h2> Invoice Generated! </h2>
-<p>{{ bolt11 }}</p>
+<ul class="actions">
+	<li><a href="" class="button submit" onclick="copyInvoice()">Copy Invoice Id</a></li>
+</ul>
 <section>
 	<div id="qrcode"></div>
 </section>
