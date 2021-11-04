@@ -1,105 +1,117 @@
 {% extends "layout-new.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
+<br/>
 <div>
     <h2>BALANCES</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <h4>confirmed on-chain balance</h4>
-            </div>
-            <div class="col-sm-4">
-                <h4>ln-channels balance</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <p>{{ funds_dict.sats_onchain }} sats</p>
-            </div>
-            <div class="col-sm-4">
-                <p>{{ funds_dict.sats_channel }} sats</p>
-            </div>
+    <div class='some-page-wrapper'>
+        <div class='row'>
+		<!--<a href="">-->
+                <div class='dashboard'>
+                    <p>on-chain balance<p>
+                    <p><center>{{ funds_dict.sats_onchain }} sats</center></p>
+                </div>
+		<!--</a>-->
+		<!--<a href="">-->
+                <div class='dashboard'>
+                    <p>ln-channel balance<p>
+                    <p><center>{{ funds_dict.sats_channel }} sats</center></p>
+                </div>
+		<!--</a>-->
         </div>
     </div>
 </div>
 <div>
     <h2>DIAGNOSTIC</h2>
-    <ul>
-        <li>
-            <a href="/lightningd_getinfo">lightningd getinfo</a>
-        </li>
-    </ul>
-</div>
-<div>
-<h2>BTC</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <h4>send bitcoin</h4>
-            </div>
-            <div class="col-sm-4">
-                <h4>new address</h4>
-            </div>
-            <div class="col-sm-4">
-                <h4>transaction history</h4>
-            </div>
+    <div class='some-page-wrapper'>
+        <div class='row'>
+            <a href="/lightningd_getinfo">
+                <div class='dashboard_links'>
+                    <p>Lightningd Getinfo<p>
+                </div>
+            </a>
+            <a href="/new_lightningd_getinfo">
+                <div class='dashboard_links'>
+                    <p>NEW Lightningd Getinfo<p>
+                </div>
+            </a>
         </div>
     </div>
-<!--`
-    <ul>
-        <li>
-            <a href="/send_bitcoin">send_bitcoin</a>
-        </li>
-        <li>
-            <a href="/new_address">new address</a>
-        </li>
-        <li>
-            <a href="/list_txs">transaction history</a>
-        </li>
-    </ul>
--->
 </div>
 <div>
-<h2>LIGHTNING</h2>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <h4>Generate Invoice</h4>
-            </div>
-            <div class="col-sm-4">
-                <h4>Pay Invoice</h4>
-            </div>
-            <div class="col-sm-4">
-                <h4>Invoice History</h4>
-            </div>
-            <div class="col-sm-4">
-                <h4>Open a channel</h4>
-            </div>
+    <h2>BTC</h2>
+    <div class='some-page-wrapper'>
+        <div class='row'>
+            <a href="/send_bitcoin">
+                <div class='dashboard_links'>
+                    <p>Send_Bitcoin<p>
+                </div>
+            </a>
+            <a href="/new_send_bitcoin">
+                <div class='dashboard_links'>
+                    <p>NEW Send_Bitcoin<p>
+                </div>
+            </a>
+            <a href="/new_address">
+                <div class='dashboard_links'>
+                    <p>New Address<p>
+                </div>
+            </a>
+            <a href="/new_new_address">
+                <div class='dashboard_links'>
+                    <p>NEW New Address<p>
+                </div>
+            </a>
+            <a href="list_txs">
+                <div class='dashboard_links'>
+                    <p>Transaction History<p>
+                </div>
+            </a>
+            <a href="new_list_txs">
+                <div class='dashboard_links'>
+                    <p>NEW Transaction History<p>
+                </div>
+            </a>
         </div>
     </div>
-    <!--
-    <ul>
-        <li>
-            <a href="/ln_invoice">generate invoice</a><br>
-        </li>
-        <li>
-            <a href="/pay_invoice">pay invoice</a><br>
-        </li>
-        <li>
-            <a href="/invoices">invoice history</a><br>
-        </li>
-        <li>
-            <a href="/channel_opener">open a channel</a><br>
-        </li>
-    </ula>
-    -->
+</div>
+<div>
+    <h2>LIGHTNING</h2>
+    <div class='some-page-wrapper'>
+        <div class='row'>
+            <a href="/ln_invoice">
+                <div class='dashboard_links'>
+                    <p>Generate Invoice<p>
+                </div>
+            </a>
+            <a href="/pay_invoice">
+                <div class='dashboard_links'>
+                    <p>Pay Invoice<p>
+                </div>
+            </a>
+            <a href="/invoices">
+                <div class='dashboard_links'>
+                    <p>Invoice History<p>
+                </div>
+            </a>
+            <a href="/channel_opener">
+                <div class='dashboard_links'>
+                    <p>Open Channel<p>
+                </div>
+            </a>
+            <a href="/list_peers">
+                <div class='dashboard_links'>
+                    <p>List Peers<p>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 {% block footer %}
-    <div class="inner">
-        <ul class="menu">
-            <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-        </ul>
-    </div>
+{{ super() }}
+<!--
+<p><center>&copy; Alloy. All rights reserved</center><p>
+-->
 {% endblock %}
