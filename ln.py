@@ -70,7 +70,18 @@ class LightningInstance():
         bolt11_result = self.instance.decodepay(bolt11)
         amount_sats = int(int(str(bolt11_result["amount_msat"]).split("msat", 1)[0]) / 1000)
         return {"amount" : amount_sats, "description" : bolt11_result["description"], "payee" : bolt11_result["payee"] }
+    
+    def list_paid(self):
+        invoice_list = self.instance.listinvoices()
+        paid_list = []
+        for i in range(len(invoice_list["invoices"])):
+            current_invoice= invoice_list["invoices"][i]
+            if current_invoice["status"] == "paid":
+                paid_list.append(current_invoice)
+        return paid_list
 
-    def notifications(self):
-        return self.instance.notifications(True)
+    def wait_any(self):
+        invoice_list = self.list_paid()
+        last_index = len(invoice_list) - 1
+        return self.instance.waitanyinvoice(lastpay_index=last_index)
 
