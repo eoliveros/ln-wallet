@@ -3,11 +3,14 @@ import json
 
 from flask import Flask, render_template, request, redirect, flash, Markup, url_for
 from flask_cors import CORS
+from flask_socketio import SocketIO
+
 
 from ln import LightningInstance
 
 app = Flask(__name__)
 CORS(app)
+socketio = SocketIO(app)
 
 if os.getenv("SECRET_KEY"):
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -137,9 +140,23 @@ def wait_any():
     ln_instance = LightningInstance()
     return ln_instance.wait_any()
 
+'''
+socket-io stuff
+'''
+
+@socketio.on('connect')
+def test_connect(auth):
+    emit('my response', {'data': 'Connected'})
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+
+
 
 
 
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ
     app.run(host='0.0.0.0', debug=flask_debug, port=5000)
+    socketio.run(app)
