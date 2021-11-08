@@ -4,6 +4,18 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', function() {
+	console.log("connected");
+        socket.emit('waitany');
+    });
+    socket.on('invoice', function(result) {
+	console.log("recieved invoice");
+	console.log(result);
+    });
+</script>
 <script>
 	const createInvoice = function() {
 		var amountSats = document.querySelector('#email').value;

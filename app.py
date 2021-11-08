@@ -3,7 +3,7 @@ import json
 
 from flask import Flask, render_template, request, redirect, flash, Markup, url_for
 from flask_cors import CORS
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, send, emit
 
 
 from ln import LightningInstance
@@ -146,13 +146,18 @@ socket-io stuff
 
 @socketio.on('connect')
 def test_connect(auth):
-    emit('my response', {'data': 'Connected'})
+    print("Client connected")
 
 @socketio.on('disconnect')
 def test_disconnect():
     print('Client disconnected')
 
-
+@socketio.on('waitany')
+def wait_any_invoice():
+    print('client called recieveany')
+    ln_instance = LightningInstance()
+    res = ln_instance.wait_any()
+    emit('invoice', {'data': str(res)})
 
 
 
