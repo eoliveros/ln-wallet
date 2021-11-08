@@ -82,6 +82,6 @@ class LightningInstance():
 
     def wait_any(self):
         invoice_list = self.list_paid()
-        last_index = len(invoice_list) - 1
+        last_index = len(invoice_list)
         return self.instance.waitanyinvoice(lastpay_index=last_index)
 
