@@ -28,6 +28,14 @@ def qrcode_svg_create(data):
     svg = output.getvalue().decode('utf-8')
     return svg
 
+def qrcode_svg_create_ln(data):
+    factory = qrcode.image.svg.SvgPathImage
+    img = qrcode.make(data, image_factory=factory, box_size=10)
+    output = io.BytesIO()
+    img.save(output)
+    svg = output.getvalue().decode('utf-8')
+    return svg
+
 @app.route('/')
 def index():
     ln_instance = LightningInstance()
@@ -65,8 +73,38 @@ def new_list_txs():
 def new_new_address_ep():
     ln_instance = LightningInstance()
     address = ln_instance.new_address()
-    qrcode_svg = qrcode_svg_create(address["bech32"])
-    return render_template("new_new_address.html", address=address, qrcode_svg=qrcode_svg)
+    #qrcode_svg = qrcode_svg_create(address["bech32"])
+    return render_template("new_new_address.html", address=address)
+    #qrcode_svg = qrcode_svg_create(address["bech32"])
+    #return render_template("new_new_address.html", address=address, qrcode_svg=qrcode_svg)
+
+@app.route('/new_ln_invoice', methods=['GET'])
+def new_ln_invoice():
+    return render_template("new_ln_invoice.html")
+
+@app.route('/new_create_invoice/<int:amount>/<string:message>/')
+def new_create_invoice(amount, message):
+    ln_instance = LightningInstance()
+    bolt11 = ln_instance.create_invoice(int(amount*1000), message)["bolt11"]
+    qrcode_svg = qrcode_svg_create_ln(bolt11)
+    return render_template("new_create_invoice.html", bolt11=bolt11, qrcode_svg=qrcode_svg)
+
+@app.route('/new_pay_invoice', methods=['GET'])
+def new_pay_invoice():
+    return render_template("new_pay_invoice.html")
+
+@app.route('/new_pay/<string:bolt11>')
+def new_pay(bolt11):
+    ln_instance = LightningInstance()
+    try:
+        invoice_result = ln_instance.send_invoice(bolt11)
+        return render_template("new_pay.html", invoice_result=invoice_result)
+    except:
+        return redirect(url_for("new_pay_error"))
+
+@app.route('/new_pay_error')
+def new_pay_error():
+    return render_template("new_pay_error.html")
 ###
 
 @app.route('/list_txs')
