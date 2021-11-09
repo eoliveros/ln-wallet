@@ -157,7 +157,7 @@ def wait_any_invoice():
     print('client called recieveany')
     ln_instance = LightningInstance()
     res = ln_instance.wait_any()
-    emit('invoice', {'data': str(res)})
+    emit('invoice', {'data': res})
 
 
 
