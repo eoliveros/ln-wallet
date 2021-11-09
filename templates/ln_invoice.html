@@ -4,30 +4,6 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf-8">
-    var socket = io();
-    socket.on('connect', function() {
-	console.log("connected");
-        socket.emit('waitany');
-    });
-    socket.on('invoice', function(result) {
-	console.log("recieved invoice");
-	console.log(`result["data"] is ${result["data"]}`);
-	var parsedResult = result["data"];
-	console.log(`parsedResult is ${parsedResult}`);
-	var satsReceived = parseFloat(parsedResult["msatoshi"]) / 1000;
-	Swal.fire({
-		title: 'Invoice Recieved',
-		text: `${satsReceived}sats received`,
-		icon: 'success',
-		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
-		confirmButtonText: 'Confirm'
-	});
-    });
-</script>
 <script>
 	const createInvoice = function() {
 		var amountSats = document.querySelector('#email').value;
