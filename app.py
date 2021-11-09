@@ -136,12 +136,12 @@ def decode_pay(bolt11):
 
 @app.route('/waitany')
 def wait_any():
-    # maybe use jinja template loops for checking
+    # for testing
     ln_instance = LightningInstance()
     return ln_instance.wait_any()
 
 '''
-socket-io stuff
+socket-io notifications
 '''
 
 @socketio.on('connect')
