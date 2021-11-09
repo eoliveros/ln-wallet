@@ -105,6 +105,12 @@ def new_pay(bolt11):
 @app.route('/new_pay_error')
 def new_pay_error():
     return render_template("new_pay_error.html")
+
+@app.route('/new_invoices', methods=['GET'])
+def new_invoices():
+    ln_instance = LightningInstance()
+    paid_invoices = ln_instance.new_list_paid()
+    return render_template("new_invoices.html", paid_invoices=paid_invoices)
 ###
 
 @app.route('/list_txs')

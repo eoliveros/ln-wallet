@@ -1,0 +1,37 @@
+{% extends "layout-new.html" %}
+
+{% block title %}Invoice History{% endblock %}
+
+{% block content %}
+<br>
+<div>
+    <h2>Invoice History</h2>
+    <table class="table table-hover">
+	<thead>
+        <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Date</th>
+            <th scope="col">Amount(msat)</th>
+            <th scope="col">Amount(sats)</th>
+            <th scope="col">Status</th>
+        </tr>
+	</thead>
+	<tbody>
+	{% for paid_invoice in paid_invoices %}
+            <tr class="table-secondary">
+                <td>{{paid_invoice.created_at}}</td>
+		<td>{{paid_invoice.date}}</td>
+                <td>{{paid_invoice.amount_msat}}</td>
+                <td>{{paid_invoice.amount_sats}}</td>
+                <td>{{paid_invoice.status}}</td>
+            </tr>
+	{% endfor %}
+	</tbody>
+    </table>
+    <br>
+</div>
+{% endblock %}
+
+{% block footer %}
+  {{ super() }}
+{% endblock %}
