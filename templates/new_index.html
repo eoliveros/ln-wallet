@@ -6,18 +6,14 @@
     <h2>BALANCES</h2>
     <div class='some-page-wrapper'>
         <div class='row'>
-		<!--<a href="">-->
-                <div class='dashboard'>
-                    <p>on-chain balance<p>
-                    <p><center>{{ funds_dict.sats_onchain }} sats</center></p>
-                </div>
-		<!--</a>-->
-		<!--<a href="">-->
-                <div class='dashboard'>
-                    <p>ln-channel balance<p>
-                    <p><center>{{ funds_dict.sats_channel }} sats</center></p>
-                </div>
-		<!--</a>-->
+            <div class='dashboard'>
+                <p>on-chain balance<p>
+	        <p><center>{{ funds_dict.sats_onchain }} sats</center></p>
+            </div>
+            <div class='dashboard'>
+                <p>ln-channel balance<p>
+                <p><center>{{ funds_dict.sats_channel }} sats</center></p>
+            </div>
         </div>
     </div>
 </div>
@@ -114,6 +110,11 @@
                     <p>Open Channel<p>
                 </div>
             </a>
+            <a href="/new_channel_opener">
+                <div class='dashboard_links'>
+                    <p>NEW Open Channel<p>
+                </div>
+            </a>
             <a href="/list_peers">
                 <div class='dashboard_links'>
                     <p>List Peers<p>
@@ -123,10 +124,6 @@
     </div>
 </div>
 {% endblock %}
-
 {% block footer %}
 {{ super() }}
-<!--
-<p><center>&copy; Alloy. All rights reserved</center><p>
--->
 {% endblock %}

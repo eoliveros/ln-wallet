@@ -111,6 +111,25 @@ def new_invoices():
     ln_instance = LightningInstance()
     paid_invoices = ln_instance.new_list_paid()
     return render_template("new_invoices.html", paid_invoices=paid_invoices)
+
+@app.route('/new_channel_opener', methods=['GET'])
+def new_channel_opener():
+    return render_template("new_channel_opener.html")
+
+@app.route('/new_open_channel/<string:node_id>/<int:amount>', methods=['GET'])
+def new_open_channel(node_id, amount):
+    ln_instance = LightningInstance()
+    try:
+        result = ln_instance.open_channel(node_id, amount)
+        flash(Markup(f'successfully added node id: {node_id}'), 'success')
+    except Exception as e:
+        print('::')
+        print('::')
+        print('::')
+        print(e.args[0])
+        flash(Markup(e.args[0]), 'danger')
+    return render_template("new_channel_opener.html")
+    #return ln_instance.open_channel(node_id, amount)
 ###
 
 @app.route('/list_txs')
@@ -217,4 +236,5 @@ def wait_any():
 
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ
+    app.secret_key = os.urandom(256)
     app.run(host='0.0.0.0', debug=flask_debug, port=5000)

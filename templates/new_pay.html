@@ -1,19 +1,13 @@
 {% extends "layout-new.html" %}
-
 {% block title %}{% endblock %}
-
 {% block head %}
 {{ super() }}
 {% endblock %}
-
 {% block content %}
-
 {{ invoice_result }}
-
 <h2>{{ invoice_result.status }}</h2>
 <br>
 <h4>Paid a total of {{ invoice_result.sats_sent }} sats</h4>
-
     <!-- Scripts -->
     <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js') }}"></script>
@@ -37,7 +31,6 @@
             document.querySelector(".sent-msats").innerText = "Paid a total of {{ invoice_result.sats_sent }} sats";
     </script>
 {% endblock %}
-
 {% block footer %}
 {{ super() }}
 {% endblock %}
