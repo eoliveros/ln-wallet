@@ -1,7 +1,10 @@
 import os
 import json
+import qrcode
+import qrcode.image.svg
+import io
 
-from flask import Flask, render_template, request, redirect, flash, Markup, url_for
+from flask import Flask, render_template, request, redirect, flash, Markup, url_for, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO, send, emit
 
@@ -20,6 +23,22 @@ if os.getenv("BITCOIN_EXPLORER"):
 else:
     app.config["BITCOIN_EXPLORER"] = "https://testnet.bitcoinexplorer.org"
 
+def qrcode_svg_create(data):
+    factory = qrcode.image.svg.SvgPathImage
+    img = qrcode.make(data, image_factory=factory, box_size=35)
+    output = io.BytesIO()
+    img.save(output)
+    svg = output.getvalue().decode('utf-8')
+    return svg
+
+def qrcode_svg_create_ln(data):
+    factory = qrcode.image.svg.SvgPathImage
+    img = qrcode.make(data, image_factory=factory, box_size=10)
+    output = io.BytesIO()
+    img.save(output)
+    svg = output.getvalue().decode('utf-8')
+    return svg
+
 @app.route('/')
 def index():
     ln_instance = LightningInstance()
@@ -33,9 +52,68 @@ def new_index():
     funds_dict = ln_instance.list_funds()
     return render_template("new_index.html", funds_dict=funds_dict)
 
+@app.route('/new_lightningd_getinfo')
+def new_lightningd_getinfo_ep():
+    info = LightningInstance().get_info()
+    return render_template('new_lightningd_getinfo.html', info=info)
+
 @app.route('/new_send_bitcoin')
 def new_send_bitcoin():
     return render_template('new_send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+
+@app.route('/new_list_txs')
+def new_list_txs():
+    ln_instance = LightningInstance()
+    transactions = ln_instance.list_txs()
+    sorted_txs = sorted(transactions["transactions"], key=lambda d: d["blockheight"], reverse=True)
+    for tx in transactions["transactions"]:
+        for output in tx["outputs"]:
+            output["sats"] = int(output["msat"] / 1000)
+            output.update({"sats": str(output["sats"])+" satoshi"})
+    return render_template("new_list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+
+@app.route('/new_new_address')
+def new_new_address_ep():
+    ln_instance = LightningInstance()
+    address = ln_instance.new_address()
+    #qrcode_svg = qrcode_svg_create(address["bech32"])
+    return render_template("new_new_address.html", address=address)
+    #qrcode_svg = qrcode_svg_create(address["bech32"])
+    #return render_template("new_new_address.html", address=address, qrcode_svg=qrcode_svg)
+
+@app.route('/new_ln_invoice', methods=['GET'])
+def new_ln_invoice():
+    return render_template("new_ln_invoice.html")
+
+@app.route('/new_create_invoice/<int:amount>/<string:message>/')
+def new_create_invoice(amount, message):
+    ln_instance = LightningInstance()
+    bolt11 = ln_instance.create_invoice(int(amount*1000), message)["bolt11"]
+    qrcode_svg = qrcode_svg_create_ln(bolt11)
+    return render_template("new_create_invoice.html", bolt11=bolt11, qrcode_svg=qrcode_svg)
+
+@app.route('/new_pay_invoice', methods=['GET'])
+def new_pay_invoice():
+    return render_template("new_pay_invoice.html")
+
+@app.route('/new_pay/<string:bolt11>')
+def new_pay(bolt11):
+    ln_instance = LightningInstance()
+    try:
+        invoice_result = ln_instance.send_invoice(bolt11)
+        return render_template("new_pay.html", invoice_result=invoice_result)
+    except:
+        return redirect(url_for("new_pay_error"))
+
+@app.route('/new_pay_error')
+def new_pay_error():
+    return render_template("new_pay_error.html")
+
+@app.route('/new_invoices', methods=['GET'])
+def new_invoices():
+    ln_instance = LightningInstance()
+    paid_invoices = ln_instance.new_list_paid()
+    return render_template("new_invoices.html", paid_invoices=paid_invoices)
 ###
 
 @app.route('/list_txs')

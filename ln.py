@@ -3,6 +3,8 @@ A class object that will be called on certain lightning-related endpoints
 """
 import os
 import random
+import datetime
+import pytz
 
 from pyln.client import LightningRpc
 
@@ -33,6 +35,19 @@ class LightningInstance():
     def list_paid(self):
         # show the status of all paid bolt11 invoice
         return self.instance.listpays()
+
+    def new_list_paid(self):
+        # show the status of all paid bolt11 invoice
+        results = []
+        list_pays = self.instance.listpays()
+        for list_pay in list_pays["pays"]:
+            created_at = list_pay["created_at"]
+            date = datetime.datetime.fromtimestamp(list_pay["created_at"], pytz.timezone('Pacific/Auckland'))
+            status = list_pay["status"]
+            amount_msat = list_pay["amount_sent_msat"]
+            amount_sats = int(round(int(list_pay["amount_sent_msat"])/1000))
+            results.append({"created_at": created_at, "date": date, "status": status, "amount_msat": amount_msat, "amount_sats": amount_sats})
+        return results
 
     def list_peers(self):
         return self.instance.listpeers()
@@ -84,4 +99,7 @@ class LightningInstance():
         invoice_list = self.list_paid()
         last_index = len(invoice_list)
         return self.instance.waitanyinvoice(lastpay_index=last_index)
+
+    def list_channels(self):
+        return self.instance.listchannels()
 
