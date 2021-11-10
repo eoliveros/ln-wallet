@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/css/main.css') }}">
 		<noscript><link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/css/noscript.css') }}"></noscript>
+		<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}">
 	</head>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -54,7 +55,6 @@
 			<script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
 			<script src="{{ url_for('static',filename='assets/js/socket.io.js') }}"></script>
 			<script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}"></script>
 			<script type="text/javascript" charset="utf-8">
 			    var socket = io();
 			    socket.on('connect', function() {
