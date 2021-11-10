@@ -6,11 +6,14 @@ import io
 
 from flask import Flask, render_template, request, redirect, flash, Markup, url_for, jsonify
 from flask_cors import CORS
+from flask_socketio import SocketIO, send, emit
+
 
 from ln import LightningInstance
 
 app = Flask(__name__)
 CORS(app)
+socketio = SocketIO(app)
 
 if os.getenv("SECRET_KEY"):
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -228,13 +231,35 @@ def decode_pay(bolt11):
     decodedpay = ln_instance.decode_pay(bolt11)
     return decodedpay
 
-@app.route('/notifications')
+@app.route('/waitany')
 def wait_any():
+    # for testing
     ln_instance = LightningInstance()
-    return ln_instance.notifications()
+    return ln_instance.wait_any()
+
+'''
+socket-io notifications
+'''
+
+@socketio.on('connect')
+def test_connect(auth):
+    print("Client connected")
+
+@socketio.on('disconnect')
+def test_disconnect():
+    print('Client disconnected')
+
+@socketio.on('waitany')
+def wait_any_invoice():
+    print('client called recieveany')
+    ln_instance = LightningInstance()
+    res = ln_instance.wait_any()
+    emit('invoice', {'data': res})
+
 
 
 if __name__=='__main__':
     flask_debug = 'DEBUG' in os.environ
     app.secret_key = os.urandom(256)
     app.run(host='0.0.0.0', debug=flask_debug, port=5000)
+    socketio.run(app)
