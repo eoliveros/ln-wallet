@@ -1,0 +1,25 @@
+{% extends "layout-new.html" %}
+{% block title %}Peers{% endblock %}
+{% block content %}
+<div>
+    <br>
+    <h2>Peers</h2>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Node ID</th>
+	    </tr>
+            </thead>
+            <tbody>
+            {% for peer in peers %}
+            <tr class="table-secondary">
+                <td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
+            </tr>
+            {% endfor %}
+	    </tbody>
+        </table>
+</div>
+{% endblock %}
+{% block footer %}
+{{ super() }}
+{% endblock %}

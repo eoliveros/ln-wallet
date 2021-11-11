@@ -126,13 +126,15 @@ def new_open_channel(node_id, amount):
         result = ln_instance.open_channel(node_id, amount)
         flash(Markup(f'successfully added node id: {node_id}'), 'success')
     except Exception as e:
-        print('::')
-        print('::')
-        print('::')
-        print(e.args[0])
         flash(Markup(e.args[0]), 'danger')
     return render_template("new_channel_opener.html")
-    #return ln_instance.open_channel(node_id, amount)
+
+@app.route('/new_list_peers')
+def new_list_channels():
+    ln_instance = LightningInstance()
+    peers = ln_instance.list_peers()["peers"]
+    return render_template("new_list_peers.html", peers=peers)
+
 ###
 
 @app.route('/list_txs')
