@@ -76,10 +76,7 @@ def new_list_txs():
 def new_new_address_ep():
     ln_instance = LightningInstance()
     address = ln_instance.new_address()
-    #qrcode_svg = qrcode_svg_create(address["bech32"])
     return render_template("new_new_address.html", address=address)
-    #qrcode_svg = qrcode_svg_create(address["bech32"])
-    #return render_template("new_new_address.html", address=address, qrcode_svg=qrcode_svg)
 
 @app.route('/new_ln_invoice', methods=['GET'])
 def new_ln_invoice():
@@ -123,7 +120,7 @@ def new_channel_opener():
 def new_open_channel(node_id, amount):
     ln_instance = LightningInstance()
     try:
-        result = ln_instance.open_channel(node_id, amount)
+        result = ln_instance.new_fund_channel(node_id, amount)
         flash(Markup(f'successfully added node id: {node_id}'), 'success')
     except Exception as e:
         flash(Markup(e.args[0]), 'danger')
@@ -135,6 +132,25 @@ def new_list_channels():
     peers = ln_instance.list_peers()["peers"]
     return render_template("new_list_peers.html", peers=peers)
 
+@app.route('/new_list_nodes')
+def new_list_nodes():
+    ln_instance = LightningInstance()
+    list_nodes = ln_instance.new_list_nodes()
+    return list_nodes
+
+@app.route('/new_node_connector')
+def new_node_connector():
+    return render_template("new_node_connector.html")
+
+@app.route('/new_connect_nodes/<string:node_address>')
+def new_connect_nodes(node_address):
+    ln_instance = LightningInstance()
+    try:
+        result = ln_instance.new_connect_nodes(node_address)
+        flash(Markup(f'successfully added node address: {node_address}'), 'success')
+    except Exception as e:
+        flash(Markup(e.args[0]), 'danger')
+    return render_template("new_node_connector.html")
 ###
 
 @app.route('/list_txs')

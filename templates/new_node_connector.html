@@ -1,0 +1,59 @@
+{% extends "layout-new.html" %}
+{% block title %}Connect Node{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
+<!--
+<script>
+    const openChannel = function() {
+        var openChannelUrl = `/new_open_channel/${document.querySelector('#nodeid').value}/${document.querySelector('#amount').value}`;
+        window.location = openChannelUrl;
+    }
+</script>
+-->
+<script>
+    const connectNode = function() {
+        var openChannelUrl = `/new_connect_nodes/${document.querySelector('#node_address').value}`;
+        window.location = openChannelUrl;
+    }
+</script>
+<br>
+<!--
+<h2>Open a Lightning Network Channel</h2>
+<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+<section>
+    <div class="form-group">
+        <label class="col-form-label mt-4" for="amount">Amount</label>
+        <input type="text" class="form-control" placeholder="Enter amount in satoshi" name="amount" id="amount">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label mt-4" for="nodeid">Node ID</label>
+        <input type="text" class="form-control" placeholder="Enter Node ID" name="nodeid" id="nodeid">
+    </div>
+    <div class="open_Channel" id="open_Channel">
+        <a class="button submit" onclick="openChannel()">
+	    <button type="button" class="btn btn-primary btn-lg">Open Channel</button>
+	</a>
+	</div>
+</section>
+-->
+<h2>Connect to node</h2>
+<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+<section>
+    <div class="form-group">
+        <label class="col-form-label mt-4" for="node_address">Node Address</label>
+        <input type="text" class="form-control" placeholder="Enter node address" name="node_address" id="node_address">
+    </div>
+    <div class="connect_Node" id="connect_Node">
+        <a class="button submit" onclick="connectNode()">
+            <button type="button" class="btn btn-primary btn-lg">Connect Node</button>
+        </a>
+    </div>
+</section>
+
+{% endblock %}
+{% block footer %}
+{{ super() }}
+{% endblock %}

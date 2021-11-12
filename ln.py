@@ -49,6 +49,15 @@ class LightningInstance():
             results.append({"created_at": created_at, "date": date, "status": status, "amount_msat": amount_msat, "amount_sats": amount_sats})
         return results
 
+    def new_list_nodes(self):
+        return self.instance.listnodes()
+
+    def new_connect_nodes(self, node_address):
+        return self.instance.connect(node_address)
+
+    def new_fund_channel(self, node_id, amount):
+        return self.instance.fundchannel(node_id, amount)
+
     def list_peers(self):
         return self.instance.listpeers()
 
