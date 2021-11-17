@@ -3,19 +3,12 @@
 {% block content %}
 <div>
     <h2>Peers</h2>
-    <table>
+    <table id="results-table">
         <tr>
             <th>Node Id</th>
-            <th>Connected</th>
+            <th>Connection</th>
             <th>Sats Locked</th>
         </tr>
-        {% for peer in peers %}
-		<tr>
-			<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
-			<td><p> {{ peer.connected }} </p></td>
-			<td><p> {{ peer.sats }} </p></td>
-		</tr>
-        {% endfor %}
     </table>
 </div>
 {% endblock %}
@@ -25,4 +18,22 @@
             <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
         </ul>
     </div>
+
+	<script src="{{ url_for('static',filename='assets/js/blockies.min.js') }}"></script>
+	<script>
+		var resultsTable = document.querySelector("#results-table");
+		{% for peer in peers %}
+			var isConnected = "{{ peer.connected }}";
+			var onlineSymbol = isConnected === "True" ? "🟢" : "🔴";
+			var nodeId = "{{ peer.id }}";
+			var shortId = nodeId.slice(0,4) + "..." + nodeId.slice(-4);
+			resultsTable.insertAdjacentHTML('beforeend', `
+			<tr>
+				<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> ${shortId} </a></td>
+				<td><p> ${onlineSymbol} </p></td>
+				<td><p> {{ peer.sats }}ș </p></td>
+			</tr>
+			`);
+		{% endfor %}
+	</script>
 {% endblock %}
