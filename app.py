@@ -131,7 +131,7 @@ def new_list_peers():
     ln_instance = LightningInstance()
     peers = ln_instance.list_peers()["peers"]
     for peer in peers:
-    #    print(peer)
+        print(peer)
         for channel in peer["channels"]:
     #        print(channel)
     #        print(type(channel))

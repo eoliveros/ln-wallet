@@ -7,6 +7,7 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 	const expand = function() {
 		document.querySelector("#payment-fields").insertAdjacentHTML(
@@ -20,7 +21,8 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Amount</span>
                     </div>
-                    <input type="text" size=64 name="amount" class="input-element" id="inputBitcoinAmount1" class="form-control" placeholder="Amount">
+                    <input type="text" size=64 name="amount" class="input-element" id="inputBitcoinAmount1" class="form-control" placeholder="Amount">&nbsp&nbsp&nbsp&nbsp
+		    <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
                 </div>
 		`);
 	}
@@ -73,6 +75,12 @@
 			}
 		});
 	}
+</script>
+<script type="text/javascript">
+    //remove row?
+    $(document).on('click', '#removeRow', function () {
+        $(this).closest('#payment-fields').remove();
+    });
 </script>
 <br/>
 <h2>Send Bitcoin</h2>
