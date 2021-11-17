@@ -64,11 +64,17 @@
 							title: 'Sent!',
 							html: `<a href="{{ bitcoin_explorer }}/tx/${JSON.parse(data).txid}">View Transaction</a>`
 						})
+                                                .then(function(){
+							location.reload();
+						})
 					} else {
 						Swal.fire({
 							icon: 'error',
 							title: 'Transaction Failed!',
 							text: 'Check you entered a correct address & amount'
+						})
+                                                .then(function(){
+							location.reload();
 						})
 					}
 				});
