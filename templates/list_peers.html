@@ -5,6 +5,7 @@
     <h2>Peers</h2>
     <table id="results-table">
         <tr>
+            <th>Identifier</th>
             <th>Node Id</th>
             <th>Connection</th>
             <th>Sats Locked</th>
@@ -26,14 +27,23 @@
 			var isConnected = "{{ peer.connected }}";
 			var onlineSymbol = isConnected === "True" ? "🟢" : "🔴";
 			var nodeId = "{{ peer.id }}";
+			var icon = blockies.create({ // All options are optional
+				seed: '{{ peer.id }}', // seed used to generate icon data, default: random
+				size: 17, // width/height of the icon in blocks, default: 8
+				scale: 3, // width/height of each block in pixels, default: 4
+			});
+			var iconHTML = icon.innerHTML;
 			var shortId = nodeId.slice(0,4) + "..." + nodeId.slice(-4);
-			resultsTable.insertAdjacentHTML('beforeend', `
-			<tr>
+			var tableRow = document.createElement("tr");
+			var tableCell = document.createElement("td");
+			tableCell.appendChild(icon);
+			tableRow.appendChild(tableCell);
+			tableRow.insertAdjacentHTML('beforeend', `
 				<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> ${shortId} </a></td>
 				<td><p> ${onlineSymbol} </p></td>
 				<td><p> {{ peer.sats }}ș </p></td>
-			</tr>
 			`);
+			resultsTable.appendChild(tableRow);
 		{% endfor %}
 	</script>
 {% endblock %}
