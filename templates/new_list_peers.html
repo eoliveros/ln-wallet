@@ -8,12 +8,22 @@
             <thead>
             <tr>
                 <th scope="col">Node ID</th>
+                <th scope="col">Amount Fund Local(msat)</th>
+                <th scope="col">Amount Fund Remote(msat)</th>
+                <th scope="col">Available Fund(msat)</th>
+                <th scope="col">Fulfilled Out(msat)</th>
 	    </tr>
             </thead>
             <tbody>
             {% for peer in peers %}
             <tr class="table-secondary">
                 <td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
+                {% for peer_channel in peer.channels %}
+                    <td>{{ peer_channel.funding.local_msat }}</td>
+                    <td>{{ peer_channel.funding.remote_msat }}</td>
+		    <td>{{ peer_channel.msatoshi_to_us }}</td>
+		    <td>{{ peer_channel.out_msatoshi_fulfilled }}</td>
+                {% endfor %}
             </tr>
             {% endfor %}
 	    </tbody>

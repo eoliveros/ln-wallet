@@ -127,9 +127,22 @@ def new_open_channel(node_id, amount):
     return render_template("new_channel_opener.html")
 
 @app.route('/new_list_peers')
-def new_list_channels():
+def new_list_peers():
     ln_instance = LightningInstance()
     peers = ln_instance.list_peers()["peers"]
+    for peer in peers:
+        print(peer)
+        for channel in peer["channels"]:
+    #        print(channel)
+    #        print(type(channel))
+    #        print(channel["funding"])
+    #        print('local amount fund(msat): '+str(channel["funding"]["local_msat"]))
+    #        print('remote amount fund(msat): '+str(channel["funding"]["remote_msat"]))
+            channel_satoshi_total = int(channel["msatoshi_total"])
+            channel_msatoshi_to_us = int(channel["msatoshi_to_us"])
+            channel["channel_remote_msatoshi"] = int(channel_satoshi_total - channel_msatoshi_to_us)
+        print(peer)
+    #print('::')
     return render_template("new_list_peers.html", peers=peers)
 
 @app.route('/new_list_nodes')
@@ -151,6 +164,12 @@ def new_connect_nodes(node_address):
     except Exception as e:
         flash(Markup(e.args[0]), 'danger')
     return render_template("new_node_connector.html")
+
+@app.route('/new_list_channels')
+def new_list_channels():
+    ln_instance = LightningInstance()
+    list_channels = ln_instance.list_channels()
+    return list_channels
 ###
 
 @app.route('/list_txs')
