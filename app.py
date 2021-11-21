@@ -180,6 +180,12 @@ def list_txs():
 def list_channels():
     ln_instance = LightningInstance()
     peers = ln_instance.list_peers()["peers"]
+    funds_array = [0] * len(peers)
+    for i in range(len(peers)):
+        for y in range(len(peers[i]["channels"])):
+            msat_amount = int(int(str(peers[i]["channels"][y]["funding"]["local_msat"]).split("msat", 1)[0]) / 1000)
+            funds_array[i] += msat_amount
+        peers[i]["sats"] = funds_array[i]
     return render_template("list_peers.html", peers = peers)
 
 @app.route('/lightningd_getinfo')

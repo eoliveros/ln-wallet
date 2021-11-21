@@ -2,16 +2,17 @@
 {% block title %}Peers{% endblock %}
 {% block content %}
 <div>
+	<ul class="actions">
+		<li> <a class="button submit" href="/">Back</a></li>
+	</ul>
     <h2>Peers</h2>
-    <table>
+    <table id="results-table">
         <tr>
+            <th>Identifier</th>
             <th>Node Id</th>
+            <th>Connection</th>
+            <th>Sats Locked</th>
         </tr>
-        {% for peer in peers %}
-		<tr>
-			<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
-		</tr>
-        {% endfor %}
     </table>
 </div>
 {% endblock %}
@@ -21,4 +22,31 @@
             <li>&copy; Alloy. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
         </ul>
     </div>
+
+	<script src="{{ url_for('static',filename='assets/js/blockies.min.js') }}"></script>
+	<script>
+		var resultsTable = document.querySelector("#results-table");
+		{% for peer in peers %}
+			var isConnected = "{{ peer.connected }}";
+			var onlineSymbol = isConnected === "True" ? "🟢" : "🔴";
+			var nodeId = "{{ peer.id }}";
+			var icon = blockies.create({ // All options are optional
+				seed: '{{ peer.id }}', // seed used to generate icon data, default: random
+				size: 17, // width/height of the icon in blocks, default: 8
+				scale: 3, // width/height of each block in pixels, default: 4
+			});
+			var iconHTML = icon.innerHTML;
+			var shortId = nodeId.slice(0,4) + "..." + nodeId.slice(-4);
+			var tableRow = document.createElement("tr");
+			var tableCell = document.createElement("td");
+			tableCell.appendChild(icon);
+			tableRow.appendChild(tableCell);
+			tableRow.insertAdjacentHTML('beforeend', `
+				<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> ${shortId} </a></td>
+				<td><p> ${onlineSymbol} </p></td>
+				<td><p> {{ peer.sats }}ș </p></td>
+			`);
+			resultsTable.appendChild(tableRow);
+		{% endfor %}
+	</script>
 {% endblock %}
