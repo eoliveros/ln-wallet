@@ -131,18 +131,10 @@ def new_list_peers():
     ln_instance = LightningInstance()
     peers = ln_instance.list_peers()["peers"]
     for peer in peers:
-        print(peer)
         for channel in peer["channels"]:
-    #        print(channel)
-    #        print(type(channel))
-    #        print(channel["funding"])
-    #        print('local amount fund(msat): '+str(channel["funding"]["local_msat"]))
-    #        print('remote amount fund(msat): '+str(channel["funding"]["remote_msat"]))
-            channel_satoshi_total = int(channel["msatoshi_total"])
-            channel_msatoshi_to_us = int(channel["msatoshi_to_us"])
-            channel["channel_remote_msatoshi"] = int(channel_satoshi_total - channel_msatoshi_to_us)
-        print(peer)
-    #print('::')
+            channel["channel_satoshi_total"] = int(round(int(channel["msatoshi_total"])/1000))
+            channel["channel_satoshi_available_send"] = int(round(int(channel["msatoshi_to_us"])/1000))
+            channel["channel_satoshi_fulfilled_out"] = int(round(int(channel["out_msatoshi_fulfilled"])/1000))
     return render_template("new_list_peers.html", peers=peers)
 
 @app.route('/new_list_nodes')
@@ -170,6 +162,7 @@ def new_list_channels():
     ln_instance = LightningInstance()
     list_channels = ln_instance.list_channels()
     return list_channels
+
 ###
 
 @app.route('/list_txs')

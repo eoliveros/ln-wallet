@@ -93,10 +93,6 @@ class LightningInstance():
                 sats_onchain += int(funds_onchain / 1000)
         return({"funds_channel" : funds_channel, "funds_onchain" : funds_onchain, "sats_channel" : sats_channel, "sats_onchain" : sats_onchain})
 
-    def listing_funds(self):
-        funds_dict = self.instance.listfunds()
-        return funds_dict
-
     def decode_pay(self, bolt11):
         bolt11_result = self.instance.decodepay(bolt11)
         amount_sats = int(int(str(bolt11_result["amount_msat"]).split("msat", 1)[0]) / 1000)
