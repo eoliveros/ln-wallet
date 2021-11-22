@@ -8,6 +8,7 @@
             <thead>
             <tr>
                 <th scope="col">Node ID</th>
+                <th scope="col">Connected</th>
                 <th scope="col">Channel ID</th>
                 <th scope="col">Short Channel ID</th>
                 <th scope="col">Amount Fund Local(sats)</th>
@@ -19,6 +20,11 @@
             {% for peer in peers %}
             <tr class="table-secondary">
                 <td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
+		{% if peer.connected is defined and peer.connected is sameas true %}
+		<td><button type="button" class="btn btn-success">{{ peer.connected }}</button></td>
+		{% else %}
+		<td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>	 
+		{% endif %}
                 {% for peer_channel in peer.channels %}
 		    <td>{{ peer_channel.channel_id }}</td>
 		    <td>{{ peer_channel.short_channel_id }}</td>
