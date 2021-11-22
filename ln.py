@@ -115,6 +115,6 @@ class LightningInstance():
     def list_channels(self):
         return self.instance.listchannels()
 
-    def rebalance_individual_channel(self, oscid, iscid, amountmillisatoshi):
-        result = self.instance.rebalance(oscid, iscid, amountmillisatoshi)
-        return result
+#    def rebalance_individual_channel(self, oscid, iscid, amountmillisatoshi):
+#        result = self.instance.rebalance(oscid, iscid, amountmillisatoshi)
+#        return result
