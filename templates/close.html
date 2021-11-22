@@ -20,8 +20,8 @@
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
-							<h1 style="margin-top: 50px;" class="tx-id">Tx Id: {{ close_tx.txid }} </h1>
-							<h1 style="margin-top: 50px;" class="tx-type">Type of Tx: {{ close_tx.type }} </h1>
+							<a style="margin-top: 50px;" class="tx-id" href="{{ bitcoin_explorer }}/tx/{{ close_tx.txid  }}">Tx Id: {{ close_tx.txid }} </a>
+							<p style="margin-top: 50px;" class="tx-type">Type of Tx: {{ close_tx.type }} </p>
 
 						</div>
 					</section>

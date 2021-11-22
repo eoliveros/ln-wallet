@@ -295,7 +295,7 @@ def wait_any():
 def close(peer_id):
     ln_instance = LightningInstance()
     close_tx = ln_instance.close_channel(peer_id)
-    return render_template("close.html", close_tx=close_tx)
+    return render_template("close.html", close_tx=close_tx, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 '''
 socket-io notifications
