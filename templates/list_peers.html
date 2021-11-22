@@ -12,6 +12,7 @@
             <th>Node Id</th>
             <th>Connection</th>
             <th>Sats Locked</th>
+            <th>Close Channel</th>
         </tr>
     </table>
 </div>
@@ -45,6 +46,7 @@
 				<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> ${shortId} </a></td>
 				<td><p> ${onlineSymbol} </p></td>
 				<td><p> {{ peer.sats }}ș </p></td>
+				<td><a href='/close/${nodeId}'> Close </a></td>
 			`);
 			resultsTable.appendChild(tableRow);
 		{% endfor %}

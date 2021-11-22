@@ -118,3 +118,7 @@ class LightningInstance():
 #    def rebalance_individual_channel(self, oscid, iscid, amountmillisatoshi):
 #        result = self.instance.rebalance(oscid, iscid, amountmillisatoshi)
 #        return result
+
+    def close_channel(self, peer_id):
+        return self.instance.close(peer_id)
+
