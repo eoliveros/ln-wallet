@@ -294,7 +294,8 @@ def wait_any():
 @app.route('/close/<string:peer_id>')
 def close(peer_id):
     ln_instance = LightningInstance()
-    return ln_instance.close_channel(peer_id)
+    close_tx = ln_instance.close_channel(peer_id)
+    return render_template("close.html", close_tx=close_tx)
 
 '''
 socket-io notifications
