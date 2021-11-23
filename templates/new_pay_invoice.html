@@ -21,7 +21,7 @@
                         confirmButtonText: 'Confirm'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            var invoiceUrl = `/new_pay/${bolt11String}`;
+                            var invoiceUrl = `/pay/${bolt11String}`;
                             window.location = invoiceUrl;
                         }
                     });
