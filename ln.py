@@ -121,4 +121,3 @@ class LightningInstance():
 
     def close_channel(self, peer_id):
         return self.instance.close(peer_id)
-
