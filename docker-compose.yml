@@ -23,10 +23,8 @@ services:
       - "bitcoin_wallet_datadir:/walletdata"
 
   clightning_bitcoin:
-          #image: btcpayserver/lightning:v0.10.1-2
-          #container_name: clightning_bitcoin
-    image: clightning_bitcoin_ericktest2
-    container_name: clightning_bitcoin_ericktest2
+    image: btcpayserver/lightning:v0.10.1-2
+    container_name: clightning_bitcoin
     restart: unless-stopped
     environment:
       LIGHTNINGD_NETWORK: testnet
@@ -37,7 +35,7 @@ services:
         bitcoin-datadir=/etc/bitcoin
         bitcoin-rpcconnect=bitcoind
     volumes:
-      #- "clightning_bitcoin_datadir:/root/.lightning"
+      - "clightning_bitcoin_datadir:/root/.lightning"
       - "bitcoin_datadir:/etc/bitcoin"
     ports:
       - "9735:9735"
