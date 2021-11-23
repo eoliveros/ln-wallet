@@ -10,30 +10,55 @@
                 <th scope="col">Node ID</th>
                 <th scope="col">Connected</th>
                 <th scope="col">Channel ID</th>
+                <th scope="col">Channel State</th>
                 <th scope="col">Short Channel ID</th>
                 <th scope="col">Amount Fund Local(sats)</th>
                 <th scope="col">Available Fund(sats)</th>
                 <th scope="col">Fulfilled Out(sats)</th>
+                <th scope="col">Close Channel</th>
 	    </tr>
             </thead>
             <tbody>
-            {% for peer in peers %}
+	    {% for peer in peers %}
             <tr class="table-secondary">
+		{% if peer.connected == True %}    
                 <td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
-		{% if peer.connected is defined and peer.connected is sameas true %}
-		<td><button type="button" class="btn btn-success">{{ peer.connected }}</button></td>
+		    {% if peer.connected is defined and peer.connected == True %}
+		    <td><button type="button" class="btn btn-success">{{ peer.connected }}</button></td>
+		    {% else %}
+		    <td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>	 
+		    {% endif %}
 		{% else %}
-		<td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>	 
-		{% endif %}
-                {% for peer_channel in peer.channels %}
+		<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
+		<td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>
+		    <!--
+		    {% for peer_channel in peer.channels %}
+		        <td>{{ peer_channel.channel_id }}</td>
+			<td>{{ peer_channel.state }}</td>
+			<td>{{ peer_channel.short_channel_id }}</td>
+			<td>{{ peer_channel.channel_satoshi_total }}</td>
+			<td>{{ peer_channel.channel_satoshi_available_send }}</td>
+			<td>{{ peer_channel.channel_satoshi_fulfilled_out }}</td>
+			<td></td><br>
+		    {% endfor %}
+		    -->
+                {% endif %}
+	        {% for peer_channel in peer.channels %}
+		    {% if peer_channel.state == 'CHANNELD_NORMAL' %}
 		    <td>{{ peer_channel.channel_id }}</td>
+		    <td>{{ peer_channel.state }}</td>
 		    <td>{{ peer_channel.short_channel_id }}</td>
 		    <td>{{ peer_channel.channel_satoshi_total }}</td>
 		    <td>{{ peer_channel.channel_satoshi_available_send }}</td>
 		    <td>{{ peer_channel.channel_satoshi_fulfilled_out }}</td>
-                {% endfor %}
+		    <td><a href='/new_close/{{peer.id}}'>
+                        <button type="button" class="btn btn-primary">Close</button>
+		        </a>
+		    </td>
+		    {% endif %}
+		{% endfor %}
             </tr>
-            {% endfor %}
+	    {% endfor %}
 	    </tbody>
         </table>
 </div>
