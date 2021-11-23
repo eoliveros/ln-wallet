@@ -165,10 +165,6 @@ def new_list_channels():
 
 #@app.route('/new_rebalance_individual_channel', methods=['GET', 'POST'])
 #def new_rebalance_individual_channel():
-#    #ln_instance = LightningInstance()
-#    ##result = ln_instance.rebalance_individual_channel('2103993x51x0', '2103523x10x0', 5000000)
-#    #result = ln_instance.rebalance_individual_channel('2103993x51x0', '2103523x10x0', 10000)
-#    #return result
 #    if request.method == 'POST':
 #        oscid = request.form["oscid"]
 #        iscid = request.form["iscid"]
@@ -176,11 +172,17 @@ def new_list_channels():
 #        try:
 #            ln_instance = LightningInstance()
 #            result = ln_instance.rebalance_individual_channel(oscid, iscid, amount)
-#            flash(Markup(f'successfully move funds from: {oscid} to: {iscid}'), 'success')
+#            flash(Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {amount}'), 'success')
 #        except Exception as e:
 #            flash(Markup(e.args[0]), 'danger')
-#        #return {"oscid": oscid, "iscid": iscid, "amount": amount}
 #    return render_template('new_rebalance_individual_channel.html')
+
+@app.route('/new_close/<string:peer_id>')
+def new_close(peer_id):
+    ln_instance = LightningInstance()
+    close_tx = ln_instance.close_channel(peer_id)
+    return render_template("new_close.html", close_tx=close_tx, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+
 ###
 
 @app.route('/list_txs')
