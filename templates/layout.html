@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css" integrity="sha384-zEpdAL7W11eTKeoBJK1g79kgl9qjP7g84KfK3AZsuonx38n8ad+f5ZgXtoSDxPOh" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="{{ url_for('static',filename='assets/js/socket.io.js') }}"></script>
+	<script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_reporting.css') }}"crossorigin="anonymous"/>
 	{% endblock %}
     </head>
@@ -50,4 +52,30 @@
             </ul>
         </div>
     </footer>
+    <script type="text/javascript" charset="utf-8">
+	    var socket = io();
+	    socket.on('connect', function() {
+		console.log("connected");
+		socket.emit('waitany');
+	    });
+	    socket.on('invoice', function(result) {
+		console.log("recieved invoice");
+		console.log(`result["data"] is ${result["data"]}`);
+		var parsedResult = result["data"];
+		console.log(`parsedResult is ${parsedResult}`);
+		var satsReceived = parseFloat(parsedResult["msatoshi"]) / 1000;
+		Swal.fire({
+			title: 'Invoice Recieved',
+			text: `${satsReceived}sats received`,
+			icon: 'success',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Confirm'
+		});
+		// forever wait for invoice
+		socket.emit('waitany');
+	    });
+    </script>
+
 </html>
