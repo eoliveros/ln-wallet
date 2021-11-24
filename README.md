@@ -43,5 +43,6 @@
 * `/status/<bolt11>` returns an html page of the status of a specific bolt11 invoice payment
 * `/channel_opener` returns an html page for opening LN channels
 * `/open_channel/<node_id>/<amount>` opens a LN channel with node_id
-
+* `/list_peers` html page that shows the status of a channel, connection to peer, and short channel id. Close connection
+* `/node_connector` connecting to another node for syncing the channel graph. Needs to be done before opening channel 
 
