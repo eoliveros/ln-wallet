@@ -46,11 +46,11 @@ def index():
     return render_template("index.html", funds_dict=funds_dict)
 
 ### ERICK trying to create a new layout with bootstrap.
-@app.route('/new_index')
-def new_index():
-    ln_instance = LightningInstance()
-    funds_dict = ln_instance.list_funds()
-    return render_template("new_index.html", funds_dict=funds_dict)
+#@app.route('/new_index')
+#def new_index():
+#    ln_instance = LightningInstance()
+#    funds_dict = ln_instance.list_funds()
+#    return render_template("new_index.html", funds_dict=funds_dict)
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():

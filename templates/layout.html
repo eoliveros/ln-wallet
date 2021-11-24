@@ -1,18 +1,83 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	{% block head %}
+        <meta charset="utf-8">
+	<!--
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	-->
+	<!--
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+	-->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css" integrity="sha384-zEpdAL7W11eTKeoBJK1g79kgl9qjP7g84KfK3AZsuonx38n8ad+f5ZgXtoSDxPOh" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_reporting.css') }}"crossorigin="anonymous"/>
+	{% endblock %}
+    </head>
 <!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/new_index">
+            <span class="visually-hidden">Home</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 -->
-<html>
-	<head>
-		<title>{% block title %}{% endblock %}</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/css/main.css') }}">
-		<noscript><link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='assets/css/noscript.css') }}"></noscript>
-		<link rel="stylesheet" href="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}">
-	</head>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home
+            <span class="visually-hidden"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/new_index">Home
+            <span class="visually-hidden"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+-->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -20,66 +85,19 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-	<body class="is-preload">
-
-		<!-- Wrapper -->
-			<div id="wrapper">
-
-				<!-- Three -->
-					<section id="three" class="wrapper style1 fade-up">
-						<div class="inner">
-						    {% block content %}
-						    {% endblock %}
-						</div>
-					</section>
-
-			</div>
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper style1-alt">
-				<div class="inner">
-					<ul class="menu">
-						    {% block footer %}
-						    {% endblock %}
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/jquery.scrollex.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/jquery.scrolly.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/browser.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/breakpoints.min.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/util.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/main.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/socket.io.js') }}"></script>
-			<script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
-			<script type="text/javascript" charset="utf-8">
-			    var socket = io();
-			    socket.on('connect', function() {
-				console.log("connected");
-				socket.emit('waitany');
-			    });
-			    socket.on('invoice', function(result) {
-				console.log("recieved invoice");
-				console.log(`result["data"] is ${result["data"]}`);
-				var parsedResult = result["data"];
-				console.log(`parsedResult is ${parsedResult}`);
-				var satsReceived = parseFloat(parsedResult["msatoshi"]) / 1000;
-				Swal.fire({
-					title: 'Invoice Recieved',
-					text: `${satsReceived}sats received`,
-					icon: 'success',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Confirm'
-				});
-				// forever wait for invoice
-				socket.emit('waitany');
-			    });
-			</script>
-
-	</body>
+    <body>
+        <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+	</div>
+    </body>
+    <footer id="footer" class="wrapper style1-alt">
+        <div class="inner">
+            <ul class="menu">
+                {% block footer %}
+                    <p><center>&copy; Alloy. All rights reserved</center><p>
+                {% endblock %}
+            </ul>
+        </div>
+    </footer>
 </html>
