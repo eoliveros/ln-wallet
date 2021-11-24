@@ -48,11 +48,11 @@ def index():
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
     info = LightningInstance().get_info()
-    return render_template('new_lightningd_getinfo.html', info=info)
+    return render_template('lightningd_getinfo.html', info=info)
 
 @app.route('/send_bitcoin')
 def send_bitcoin():
-    return render_template('new_send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 @app.route('/list_txs')
 def list_txs():
@@ -63,51 +63,51 @@ def list_txs():
         for output in tx["outputs"]:
             output["sats"] = int(output["msat"] / 1000)
             output.update({"sats": str(output["sats"])+" satoshi"})
-    return render_template("new_list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    return render_template("list_transactions.html", transactions=sorted_txs, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 @app.route('/new_address')
 def new_address_ep():
     ln_instance = LightningInstance()
     address = ln_instance.new_address()
-    return render_template("new_new_address.html", address=address)
+    return render_template("new_address.html", address=address)
 
 @app.route('/ln_invoice', methods=['GET'])
 def ln_invoice():
-    return render_template("new_ln_invoice.html")
+    return render_template("ln_invoice.html")
 
 @app.route('/create_invoice/<int:amount>/<string:message>/')
 def create_invoice(amount, message):
     ln_instance = LightningInstance()
     bolt11 = ln_instance.create_invoice(int(amount*1000), message)["bolt11"]
     qrcode_svg = qrcode_svg_create_ln(bolt11)
-    return render_template("new_create_invoice.html", bolt11=bolt11, qrcode_svg=qrcode_svg)
+    return render_template("create_invoice.html", bolt11=bolt11, qrcode_svg=qrcode_svg)
 
 @app.route('/pay_invoice', methods=['GET'])
 def pay_invoice():
-    return render_template("new_pay_invoice.html")
+    return render_template("pay_invoice.html")
 
 @app.route('/pay/<string:bolt11>')
 def pay(bolt11):
     ln_instance = LightningInstance()
     try:
         invoice_result = ln_instance.send_invoice(bolt11)
-        return render_template("new_pay.html", invoice_result=invoice_result)
+        return render_template("pay.html", invoice_result=invoice_result)
     except:
-        return redirect(url_for("new_pay_error"))
+        return redirect(url_for("pay_error"))
 
 @app.route('/pay_error')
 def pay_error():
-    return render_template("new_pay_error.html")
+    return render_template("pay_error.html")
 
 @app.route('/invoices', methods=['GET'])
 def invoices():
     ln_instance = LightningInstance()
     paid_invoices = ln_instance.list_paid()
-    return render_template("new_invoices.html", paid_invoices=paid_invoices)
+    return render_template("invoices.html", paid_invoices=paid_invoices)
 
 @app.route('/channel_opener', methods=['GET'])
 def channel_opener():
-    return render_template("new_channel_opener.html")
+    return render_template("channel_opener.html")
 
 @app.route('/open_channel/<string:node_id>/<int:amount>', methods=['GET'])
 def open_channel(node_id, amount):
@@ -117,7 +117,7 @@ def open_channel(node_id, amount):
         flash(Markup(f'successfully added node id: {node_id} with the amount: {amount}'), 'success')
     except Exception as e:
         flash(Markup(e.args[0]), 'danger')
-    return render_template("new_channel_opener.html")
+    return render_template("channel_opener.html")
 
 @app.route('/list_peers')
 def list_peers():
@@ -128,7 +128,7 @@ def list_peers():
             channel["channel_satoshi_total"] = int(round(int(channel["msatoshi_total"])/1000))
             channel["channel_satoshi_available_send"] = int(round(int(channel["msatoshi_to_us"])/1000))
             channel["channel_satoshi_fulfilled_out"] = int(round(int(channel["out_msatoshi_fulfilled"])/1000))
-    return render_template("new_list_peers.html", peers=peers)
+    return render_template("list_peers.html", peers=peers)
 
 @app.route('/list_nodes')
 def list_nodes():
@@ -138,7 +138,7 @@ def list_nodes():
 
 @app.route('/node_connector')
 def node_connector():
-    return render_template("new_node_connector.html")
+    return render_template("node_connector.html")
 
 @app.route('/connect_nodes/<string:node_address>')
 def connect_nodes(node_address):
@@ -148,7 +148,7 @@ def connect_nodes(node_address):
         flash(Markup(f'successfully added node address: {node_address}'), 'success')
     except Exception as e:
         flash(Markup(e.args[0]), 'danger')
-    return render_template("new_node_connector.html")
+    return render_template("node_connector.html")
 
 @app.route('/list_channels')
 def list_channels():
@@ -168,13 +168,13 @@ def list_channels():
 #            flash(Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {amount}'), 'success')
 #        except Exception as e:
 #            flash(Markup(e.args[0]), 'danger')
-#    return render_template('new_rebalance_individual_channel.html')
+#    return render_template('rebalance_individual_channel.html')
 
 @app.route('/new_close/<string:peer_id>')
 def new_close(peer_id):
     ln_instance = LightningInstance()
     close_tx = ln_instance.close_channel(peer_id)
-    return render_template("new_close.html", close_tx=close_tx, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    return render_template("close.html", close_tx=close_tx, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
 
 
 @app.route('/withdraw', methods=['GET', 'POST'])
