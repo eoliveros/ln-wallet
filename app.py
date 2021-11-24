@@ -102,7 +102,7 @@ def pay_error():
 @app.route('/invoices', methods=['GET'])
 def invoices():
     ln_instance = LightningInstance()
-    paid_invoices = ln_instance.new_list_paid()
+    paid_invoices = ln_instance.list_paid()
     return render_template("new_invoices.html", paid_invoices=paid_invoices)
 
 @app.route('/channel_opener', methods=['GET'])
@@ -113,7 +113,7 @@ def channel_opener():
 def open_channel(node_id, amount):
     ln_instance = LightningInstance()
     try:
-        result = ln_instance.new_fund_channel(node_id, amount)
+        result = ln_instance.fund_channel(node_id, amount)
         flash(Markup(f'successfully added node id: {node_id} with the amount: {amount}'), 'success')
     except Exception as e:
         flash(Markup(e.args[0]), 'danger')
@@ -130,10 +130,10 @@ def list_peers():
             channel["channel_satoshi_fulfilled_out"] = int(round(int(channel["out_msatoshi_fulfilled"])/1000))
     return render_template("new_list_peers.html", peers=peers)
 
-@app.route('/new_list_nodes')
-def new_list_nodes():
+@app.route('/list_nodes')
+def list_nodes():
     ln_instance = LightningInstance()
-    list_nodes = ln_instance.new_list_nodes()
+    list_nodes = ln_instance.list_nodes()
     return list_nodes
 
 @app.route('/node_connector')
@@ -144,14 +144,14 @@ def node_connector():
 def connect_nodes(node_address):
     ln_instance = LightningInstance()
     try:
-        result = ln_instance.new_connect_nodes(node_address)
+        result = ln_instance.connect_nodes(node_address)
         flash(Markup(f'successfully added node address: {node_address}'), 'success')
     except Exception as e:
         flash(Markup(e.args[0]), 'danger')
     return render_template("new_node_connector.html")
 
-@app.route('/new_list_channels')
-def new_list_channels():
+@app.route('/list_channels')
+def list_channels():
     ln_instance = LightningInstance()
     list_channels = ln_instance.list_channels()
     return list_channels

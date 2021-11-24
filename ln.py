@@ -34,10 +34,6 @@ class LightningInstance():
 
     def list_paid(self):
         # show the status of all paid bolt11 invoice
-        return self.instance.listpays()
-
-    def new_list_paid(self):
-        # show the status of all paid bolt11 invoice
         results = []
         list_pays = self.instance.listpays()
         for list_pay in list_pays["pays"]:
@@ -49,13 +45,13 @@ class LightningInstance():
             results.append({"created_at": created_at, "date": date, "status": status, "amount_msat": amount_msat, "amount_sats": amount_sats})
         return results
 
-    def new_list_nodes(self):
+    def list_nodes(self):
         return self.instance.listnodes()
 
-    def new_connect_nodes(self, node_address):
+    def connect_nodes(self, node_address):
         return self.instance.connect(node_address)
 
-    def new_fund_channel(self, node_id, amount):
+    def fund_channel(self, node_id, amount):
         return self.instance.fundchannel(node_id, amount)
 
     def list_peers(self):
@@ -98,15 +94,6 @@ class LightningInstance():
         amount_sats = int(int(str(bolt11_result["amount_msat"]).split("msat", 1)[0]) / 1000)
         return {"amount" : amount_sats, "description" : bolt11_result["description"], "payee" : bolt11_result["payee"] }
     
-    def list_paid(self):
-        invoice_list = self.instance.listinvoices()
-        paid_list = []
-        for i in range(len(invoice_list["invoices"])):
-            current_invoice= invoice_list["invoices"][i]
-            if current_invoice["status"] == "paid":
-                paid_list.append(current_invoice)
-        return paid_list
-
     def wait_any(self):
         invoice_list = self.list_paid()
         last_index = len(invoice_list)
