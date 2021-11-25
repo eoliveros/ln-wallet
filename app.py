@@ -123,11 +123,22 @@ def open_channel(node_id, amount):
 def list_peers():
     ln_instance = LightningInstance()
     peers = ln_instance.list_peers()["peers"]
-    for peer in peers:
-        for channel in peer["channels"]:
-            channel["channel_satoshi_total"] = int(round(int(channel["msatoshi_total"])/1000))
-            channel["channel_satoshi_available_send"] = int(round(int(channel["msatoshi_to_us"])/1000))
-            channel["channel_satoshi_fulfilled_out"] = int(round(int(channel["out_msatoshi_fulfilled"])/1000))
+    for i in range(len(peers)):
+        peers[i]["sats_total"] = 0
+        peers[i]["can_send"] = 0
+        peers[i]["can_receive"] = 0
+        # I'm assuming there will only be one channel for each node, but I'm using an array in case there's more
+        peers[i]["channel_states"] = []
+        for channel in peers[i]["channels"]:
+            peers[i]["sats_total"] += int(channel["msatoshi_total"])/1000
+            peers[i]["can_send"] += int(channel["msatoshi_to_us"])/1000
+            peers[i]["can_receive"] += int(channel["out_msatoshi_fulfilled"])/1000
+            peers[i]["channel_states"].append(channel["state"])
+
+        # round as a last step, for accuracy
+        peers[i]["sats_total"] = int(peers[i]["sats_total"])
+        peers[i]["can_send"] = int(peers[i]["can_send"])
+        peers[i]["can_receive"] = int(peers[i]["can_receive"])
     return render_template("list_peers.html", peers=peers)
 
 @app.route('/list_nodes')
@@ -170,8 +181,8 @@ def list_channels():
 #            flash(Markup(e.args[0]), 'danger')
 #    return render_template('rebalance_individual_channel.html')
 
-@app.route('/new_close/<string:peer_id>')
-def new_close(peer_id):
+@app.route('/close/<string:peer_id>')
+def close(peer_id):
     ln_instance = LightningInstance()
     close_tx = ln_instance.close_channel(peer_id)
     return render_template("close.html", close_tx=close_tx, bitcoin_explorer=app.config["BITCOIN_EXPLORER"])

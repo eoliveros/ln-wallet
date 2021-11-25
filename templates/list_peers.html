@@ -4,71 +4,58 @@
 <div>
     <br>
     <h2>Peers</h2>
-    <p>
-    Node ID information only show when:<br>
-    - Connected = True<br>
-    Channel information on shows when:<br>
-    - Connected = True<br>
-    - Channel State = Channeld Normal<br>
-    </p>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Node ID</th>
-                <th scope="col">Connected</th>
-                <th scope="col">Channel ID</th>
-                <th scope="col">Channel State</th>
-                <th scope="col">Short Channel ID</th>
-                <th scope="col">Amount Fund Local(sats)</th>
-                <th scope="col">Available Fund(sats)</th>
-                <th scope="col">Fulfilled Out(sats)</th>
-                <th scope="col">Close Channel</th>
-	    </tr>
-            </thead>
-            <tbody>
-	    {% for peer in peers %}
-            <tr class="table-secondary">
-		{% if peer.connected == True %}    
-                <td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
-		    {% if peer.connected is defined and peer.connected == True %}
-		    <td><button type="button" class="btn btn-success">{{ peer.connected }}</button></td>
-		    {% else %}
-		    <td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>	 
-		    {% endif %}
-		{% else %}
-		<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> {{ peer.id }} </a></td>
-		<td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>
-		    <!--
-		    {% for peer_channel in peer.channels %}
-		        <td>{{ peer_channel.channel_id }}</td>
-			<td>{{ peer_channel.state }}</td>
-			<td>{{ peer_channel.short_channel_id }}</td>
-			<td>{{ peer_channel.channel_satoshi_total }}</td>
-			<td>{{ peer_channel.channel_satoshi_available_send }}</td>
-			<td>{{ peer_channel.channel_satoshi_fulfilled_out }}</td>
-			<td></td><br>
-		    {% endfor %}
-		    -->
-                {% endif %}
-	        {% for peer_channel in peer.channels %}
-		    {% if peer_channel.state == 'CHANNELD_NORMAL' %}
-		    <td>{{ peer_channel.channel_id }}</td>
-		    <td>{{ peer_channel.state }}</td>
-		    <td>{{ peer_channel.short_channel_id }}</td>
-		    <td>{{ peer_channel.channel_satoshi_total }}</td>
-		    <td>{{ peer_channel.channel_satoshi_available_send }}</td>
-		    <td>{{ peer_channel.channel_satoshi_fulfilled_out }}</td>
-		    <td><a href='/new_close/{{peer.id}}'>
-                        <button type="button" class="btn btn-primary">Close</button>
-		        </a>
-		    </td>
-		    {% endif %}
-		{% endfor %}
-            </tr>
-	    {% endfor %}
-	    </tbody>
-        </table>
+    <table class="table table-hover mt-2">
+      <thead>
+        <tr>
+          <th scope="col">Icon</th>
+          <th scope="col">Node ID</th>
+          <th scope="col">Connected</th>
+          <th scope="col">Total (sats)</th>
+          <th scope="col">Can send (sats)</th>
+          <th scope="col">Can receive (sats)</th>
+          <th scope="col">Channel State(s)</th>
+          <th scope="col">Close Channel</th>
+        </tr>
+      </thead>
+    </table>
 </div>
+<script src="{{ url_for('static',filename='assets/js/blockies.min.js') }}"></script>
+<script>
+	var table = document.querySelector(".table");
+	var tableBody = document.createElement("tbody");
+	{% for peer in peers %}
+		var nodeId = "{{ peer.id }}";
+		var tableRow = document.createElement("tr");
+		var tableCell = document.createElement("td");
+		var icon = blockies.create({ // All options are optional
+			seed: '{{ peer.id }}', // seed used to generate icon data, default: random
+			size: 17, // width/height of the icon in blocks, default: 8
+			scale: 3, // width/height of each block in pixels, default: 4
+		});
+		var shortId = nodeId.slice(0,4) + "..." + nodeId.slice(-4);
+		tableCell.appendChild(icon);
+		tableRow.appendChild(tableCell);
+		tableRow.insertAdjacentHTML('beforeend', `
+			<td><a href="https://1ml.com/testnet/node/{{ peer.id }}"> ${shortId} </a></td>
+                        {% if peer.connected is defined and peer.connected == True %}
+		          <td><button type="button" class="btn btn-success">{{ peer.connected }}</button></td>
+		        {% else %}
+		          <td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>
+		        {% endif %}
+			<td><p> {{ peer.sats_total }}ș </p></td>
+			<td><p> {{ peer.can_send }}ș </p></td>
+			<td><p> {{ peer.can_receive }}ș </p></td>
+			<td><p> {{ peer.channel_states }} </p></td>
+			<td>
+			  <a href='/close/{{peer.id}}'>
+                            <button type="button" class="btn btn-primary">Close</button>
+		          </a>
+		        </td>
+		`);
+		tableBody.appendChild(tableRow);
+	{% endfor %}
+	table.appendChild(tableBody);
+</script>
 {% endblock %}
 {% block footer %}
 {{ super() }}
