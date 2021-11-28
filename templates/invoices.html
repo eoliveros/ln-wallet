@@ -7,9 +7,7 @@
     <table class="table table-hover">
 	<thead>
         <tr>
-            <th scope="col">Timestamp</th>
             <th scope="col">Date</th>
-            <th scope="col">Amount(msat)</th>
             <th scope="col">Amount(sats)</th>
             <th scope="col">Status</th>
         </tr>
@@ -17,10 +15,8 @@
 	<tbody>
 	{% for paid_invoice in paid_invoices %}
             <tr class="table-secondary">
-                <td>{{paid_invoice.created_at}}</td>
 		<td>{{paid_invoice.date}}</td>
                 <td>{{paid_invoice.amount_msat}}</td>
-                <td>{{paid_invoice.amount_sats}}sats</td>
                 <td>{{paid_invoice.status}}</td>
             </tr>
 	{% endfor %}
