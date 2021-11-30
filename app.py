@@ -39,10 +39,31 @@ def qrcode_svg_create_ln(data):
     svg = output.getvalue().decode('utf-8')
     return svg
 
+def check_nodes():
+    ln_instance = LightningInstance()
+    list_nodes = ln_instance.list_nodes()
+    return list_nodes
+
 @app.route('/')
 def index():
     ln_instance = LightningInstance()
     funds_dict = ln_instance.list_funds()
+    list_nodes = check_nodes()
+    number_nodes = len(list_nodes["nodes"])
+    if number_nodes < 1:
+        ### ideas we could get the blockstream address and set it statically
+        if os.getenv("NODE_ADDRESS"):
+            ### ideas we could get the blockstream address and set it statically
+            node_address = os.getenv("NODE_ADDRESS")
+        ### testnet node
+        else:
+            node_address = '02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735'
+        try:
+            ln_instance = LightningInstance()
+            result = ln_instance.connect_nodes(node_address)
+            flash(Markup(f'successfully added node address: {node_address}'), 'success')
+        except Exception as e:
+            flash(Markup(e.args[0]), 'danger')
     return render_template("index.html", funds_dict=funds_dict)
 
 @app.route('/lightningd_getinfo')
@@ -111,7 +132,23 @@ def channel_opener():
 
 @app.route('/open_channel/<string:node_id>/<int:amount>', methods=['GET'])
 def open_channel(node_id, amount):
+    list_nodes = check_nodes()
+    number_nodes = len(list_nodes["nodes"])
     ln_instance = LightningInstance()
+    if number_nodes < 1:
+        ### ideas we could get the blockstream address and set it statically
+        if os.getenv("NODE_ADDRESS"):
+            ### ideas we could get the blockstream address and set it statically
+            node_address = os.getenv("NODE_ADDRESS")
+        ### testnet node
+        else:
+            node_address = '02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735'
+        try:
+            #ln_instance = LightningInstance()
+            result = ln_instance.connect_nodes(node_address)
+            flash(Markup(f'successfully added node address: {node_address}'), 'success')
+        except Exception as e:
+            flash(Markup(e.args[0]), 'danger')
     try:
         result = ln_instance.fund_channel(node_id, amount)
         flash(Markup(f'successfully added node id: {node_id} with the amount: {amount}'), 'success')
@@ -167,7 +204,7 @@ def list_channels():
     list_channels = ln_instance.list_channels()
     return list_channels
 
-#@app.route('/new_rebalance_individual_channel', methods=['GET', 'POST'])
+#@app.route('/rebalance_individual_channel', methods=['GET', 'POST'])
 #def new_rebalance_individual_channel():
 #    if request.method == 'POST':
 #        oscid = request.form["oscid"]
