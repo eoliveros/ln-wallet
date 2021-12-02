@@ -51,3 +51,11 @@
 `mainnet node 1ml.com`: 0217890e3aad8d35bc054f43acc00084b25229ecff0ab68debd82883ad65ee8266@23.237.77.11:9735
 
 `testnet node 1ml.com`: 02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735
+
+# plugins:
+The directory is at /opt/lightning_plugins.
+
+Manual operations:
+* `enable the plugin`: lightning-cli --conf=/root/.lightning/config --rpc-file=/root/.lightning/lightning-rpc plugin start /opt/lightning_plugins/rebalance.py
+* `run the rebalance plugin via lightning-cli`: lightning-cli --conf=/root/.lightning/config --rpc-file=/root/.lightning/lightning-rpc rebalance {outgoing_scid} {incoming_scid} {amount in milisatoshi}
+
