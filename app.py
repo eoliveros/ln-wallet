@@ -174,20 +174,6 @@ def list_nodes():
     list_nodes = ln_instance.list_nodes()
     return list_nodes
 
-@app.route('/node_connector')
-def node_connector():
-    return render_template("node_connector.html")
-
-@app.route('/connect_nodes/<string:node_address>')
-def connect_nodes(node_address):
-    ln_instance = LightningInstance()
-    try:
-        result = ln_instance.connect_nodes(node_address)
-        flash(Markup(f'successfully added node address: {node_address}'), 'success')
-    except Exception as e:
-        flash(Markup(e.args[0]), 'danger')
-    return render_template("node_connector.html")
-
 @app.route('/list_channels')
 def list_channels():
     ln_instance = LightningInstance()
