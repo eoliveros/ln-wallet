@@ -23,7 +23,7 @@ services:
       - "bitcoin_wallet_datadir:/walletdata"
 
   clightning_bitcoin:
-    image: btcpayserver/lightning:v0.10.1-2
+    image: clightning_bitcoin
     container_name: clightning_bitcoin
     restart: unless-stopped
     environment:

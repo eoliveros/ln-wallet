@@ -10,6 +10,7 @@
           <th scope="col">Icon</th>
           <th scope="col">Node ID</th>
           <th scope="col">Connected</th>
+          <th scope="col">SCID</th>
           <th scope="col">Total (sats)</th>
           <th scope="col">Can send (sats)</th>
           <th scope="col">Can receive (sats)</th>
@@ -42,6 +43,7 @@
 		        {% else %}
 		          <td><button type="button" class="btn btn-danger">{{ peer.connected }}</button></td>
 		        {% endif %}
+			<td><p> {{ peer.scid }} </p></td>
 			<td><p> {{ peer.sats_total }}ș </p></td>
 			<td><p> {{ peer.can_send }}ș </p></td>
 			<td><p> {{ peer.can_receive }}ș </p></td>
