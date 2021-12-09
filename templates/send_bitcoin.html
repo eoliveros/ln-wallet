@@ -23,6 +23,7 @@
                     </div>
                     <input type="text" size=64 name="amount" class="input-element" id="inputBitcoinAmount1" class="form-control" placeholder="Amount">&nbsp&nbsp&nbsp&nbsp
 		    <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+		    <button id="maxRow" type="button" class="btn btn-primary">Max</button>
                 </div>
 		`);
 	}
@@ -86,6 +87,11 @@
     //remove row?
     $(document).on('click', '#removeRow', function () {
         $(this).closest('#payment-fields').remove();
+    });
+    $(document).on('click', '#maxRow', function () {
+	console.log("test clicked");
+        var test = $(this).closest('#payment-fields');
+	    test[0]["children"][3].value = "{{ onchain }}";
     });
 </script>
 <br/>
