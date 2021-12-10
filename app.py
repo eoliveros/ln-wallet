@@ -61,7 +61,7 @@ def index():
         try:
             ln_instance = LightningInstance()
             result = ln_instance.connect_nodes(node_address)
-            flash(Markup(f'successfully added node address: {node_address}'), 'success')
+            #flash(Markup(f'successfully added node address: {node_address}'), 'success')
         except Exception as e:
             flash(Markup(e.args[0]), 'danger')
     return render_template("index.html", funds_dict=funds_dict)
@@ -180,19 +180,19 @@ def list_channels():
     list_channels = ln_instance.list_channels()
     return list_channels
 
-#@app.route('/rebalance_individual_channel', methods=['GET', 'POST'])
-#def new_rebalance_individual_channel():
-#    if request.method == 'POST':
-#        oscid = request.form["oscid"]
-#        iscid = request.form["iscid"]
-#        amount = request.form["amount"]+str('msat')
-#        try:
-#            ln_instance = LightningInstance()
-#            result = ln_instance.rebalance_individual_channel(oscid, iscid, amount)
-#            flash(Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {amount}'), 'success')
-#        except Exception as e:
-#            flash(Markup(e.args[0]), 'danger')
-#    return render_template('rebalance_individual_channel.html')
+@app.route('/rebalance_individual_channel', methods=['GET', 'POST'])
+def new_rebalance_individual_channel():
+    if request.method == 'POST':
+        oscid = request.form["oscid"]
+        iscid = request.form["iscid"]
+        amount = request.form["amount"]+str('msat')
+        try:
+            ln_instance = LightningInstance()
+            result = ln_instance.rebalance_individual_channel(oscid, iscid, amount)
+            flash(Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {amount}'), 'success')
+        except Exception as e:
+            flash(Markup(e.args[0]), 'danger')
+    return render_template('rebalance_individual_channel.html')
 
 @app.route('/close/<string:peer_id>')
 def close(peer_id):
