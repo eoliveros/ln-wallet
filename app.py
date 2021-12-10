@@ -73,7 +73,9 @@ def lightningd_getinfo_ep():
 
 @app.route('/send_bitcoin')
 def send_bitcoin():
-    return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+    ln_instance = LightningInstance()
+    onchain = int(ln_instance.list_funds()["sats_onchain"]) / 100000000
+    return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"], onchain=onchain)
 
 @app.route('/list_txs')
 def list_txs():

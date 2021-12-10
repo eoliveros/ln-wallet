@@ -21,7 +21,9 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Amount</span>
                     </div>
-                    <input type="text" size=64 name="amount" class="input-element" id="inputBitcoinAmount1" class="form-control" placeholder="Amount">&nbsp&nbsp&nbsp&nbsp
+		    <input type="text" size=64 name="amount" class="input-element" id="inputBitcoinAmount1" class="form-control" placeholder="Amount">
+		    <button id="maxRow" type="button" class="btn btn-primary">Max</button>
+		    &nbsp;
 		    <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
                 </div>
 		`);
@@ -87,6 +89,11 @@
     $(document).on('click', '#removeRow', function () {
         $(this).closest('#payment-fields').remove();
     });
+    $(document).on('click', '#maxRow', function () {
+	console.log("test clicked");
+        var test = $(this).closest('#payment-fields');
+	    test[0]["children"][3].value = "{{ onchain }}";
+    });
 </script>
 <br/>
 <h2>Send Bitcoin</h2>
@@ -100,6 +107,7 @@
         <span class="input-group-text">Amount</span>
     </div>
     <input type="text" size=64 name="amount" class="input-element" id="inputBitcoinAmount1" class="form-control" placeholder="Amount">
+    <button id="maxRow" type="button" class="btn btn-primary">Max</button>
 </div>
 </section>
 <div name="add_Output" id="add_Output">
