@@ -187,7 +187,7 @@ def new_rebalance_individual_channel():
     if request.method == 'POST':
         oscid = request.form["oscid"]
         iscid = request.form["iscid"]
-        amount = request.form["amount"]+str('msat')
+        amount = str(int(request.form["amount"]) * 1000) +str('msat')
         try:
             ln_instance = LightningInstance()
             result = ln_instance.rebalance_individual_channel(oscid, iscid, amount)
