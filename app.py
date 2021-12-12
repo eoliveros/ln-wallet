@@ -232,6 +232,11 @@ def wait_any():
     ln_instance = LightningInstance()
     return ln_instance.wait_any()
 
+@app.route('/get_fee')
+def get_fee():
+    ln_instance = LightningInstance()
+    return ln_instance.fee_rates()
+
 '''
 socket-io notifications
 '''

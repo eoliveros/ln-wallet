@@ -107,3 +107,7 @@ class LightningInstance():
 
     def close_channel(self, peer_id):
         return self.instance.close(peer_id)
+
+    def fee_rates(self):
+        # get fee rates in unit of sats per 1000 virtual bytes
+        return self.instance.feerates("perkb")
