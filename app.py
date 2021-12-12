@@ -77,6 +77,12 @@ def send_bitcoin():
     onchain = int(ln_instance.list_funds()["sats_onchain"]) / 100000000
     return render_template('send_bitcoin.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"], onchain=onchain)
 
+@app.route('/create_psbt')
+def create_psbt():
+    ln_instance = LightningInstance()
+    onchain = int(ln_instance.list_funds()["sats_onchain"]) / 100000000
+    return render_template('create_psbt.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"], onchain=onchain)
+
 @app.route('/list_txs')
 def list_txs():
     ln_instance = LightningInstance()
@@ -210,6 +216,16 @@ def withdraw():
     outputs_dict = request.json["address_amount"]
     try:
         tx_result = ln_instance.multi_withdraw(outputs_dict)
+    except:
+        tx_result = "error"
+    return tx_result
+
+@app.route('/psbt', methods=['GET', 'POST'])
+def psbt():
+    ln_instance = LightningInstance()
+    outputs_dict = request.json["address_amount"]
+    try:
+        tx_result = ln_instance.prepare_psbt(outputs_dict)
     except:
         tx_result = "error"
     return tx_result

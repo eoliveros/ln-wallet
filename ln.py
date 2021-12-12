@@ -111,3 +111,6 @@ class LightningInstance():
     def fee_rates(self):
         # get fee rates in unit of sats per 1000 virtual bytes
         return self.instance.feerates("perkb")
+
+    def prepare_psbt(self, outputs):
+        return self.instance.txprepare(outputs)
