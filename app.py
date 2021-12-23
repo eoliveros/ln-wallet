@@ -226,8 +226,38 @@ def psbt():
     outputs_dict = request.json["address_amount"]
     try:
         tx_result = ln_instance.prepare_psbt(outputs_dict)
-    except:
-        tx_result = "error"
+    except Exception as e:
+        tx_result = str(e)
+    return tx_result
+
+@app.route('/broadcast')
+def broadcast():
+    ln_instance = LightningInstance()
+    return render_template('broadcast.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+
+@app.route('/send_psbt', methods=['GET', 'POST'])
+def send_psbt():
+    ln_instance = LightningInstance()
+    outputs_dict = request.json["signed_psbt"]
+    try:
+        tx_result = ln_instance.send_psbt(outputs_dict)
+    except Exception as e:
+        tx_result = str(e)
+    return tx_result
+
+@app.route('/sign')
+def sign():
+    ln_instance = LightningInstance()
+    return render_template('sign.html', bitcoin_explorer=app.config["BITCOIN_EXPLORER"])
+
+@app.route('/sign_psbt', methods=['GET', 'POST'])
+def sign_psbt():
+    ln_instance = LightningInstance()
+    outputs_dict = request.json["unsigned_psbt"]
+    try:
+        tx_result = ln_instance.sign_psbt(outputs_dict)
+    except Exception as e:
+        tx_result = str(e)
     return tx_result
 
 @app.route('/status/<string:bolt11>')

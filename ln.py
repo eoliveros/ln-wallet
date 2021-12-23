@@ -114,3 +114,10 @@ class LightningInstance():
 
     def prepare_psbt(self, outputs):
         return self.instance.txprepare(outputs)
+
+    def send_psbt(self, signed_psbt):
+        return self.instance.sendpsbt(signed_psbt)
+
+    def sign_psbt(self, unsigned_psbt):
+        return self.instance.signpsbt(unsigned_psbt)
+
