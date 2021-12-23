@@ -279,6 +279,16 @@ def get_fee():
     ln_instance = LightningInstance()
     return ln_instance.fee_rates()
 
+@app.route('/send_node')
+def send_node():
+    return render_template("send_node.html")
+
+@app.route('/keysend/<string:node_id>/<int:sats>')
+def key_send(node_id, sats):
+    ln_instance = LightningInstance()
+    return ln_instance.key_send(node_id, sats*1000)
+
+
 '''
 socket-io notifications
 '''

@@ -121,3 +121,6 @@ class LightningInstance():
     def sign_psbt(self, unsigned_psbt):
         return self.instance.signpsbt(unsigned_psbt)
 
+    def key_send(self, node_id, msats):
+        return self.instance.keysend(node_id, msats)
+
