@@ -150,9 +150,20 @@ def open_channel(node_pubkey, amount):
         flash(Markup(e.args[0]), 'danger')
     return render_template("channel_opener.html")
 
-@app.route('/list_peers')
+@app.route('/list_peers', methods=['GET', 'POST'])
 def list_peers():
     ln_instance = LightningInstance()
+    if request.method == 'POST':
+        oscid = request.form["oscid"]
+        iscid = request.form["iscid"]
+        sats = request.form["amount"]
+        amount = str(int(sats) * 1000) +str('msat')
+        try:
+            ln_instance = LightningInstance()
+            result = ln_instance.rebalance_individual_channel(oscid, iscid, amount)
+            flash(Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {sats}sats'), 'success')
+        except Exception as e:
+            flash(Markup(e.args[0]), 'danger')
     peers = ln_instance.list_peers()["peers"]
     for i in range(len(peers)):
         peers[i]["sats_total"] = 0
@@ -187,21 +198,6 @@ def list_channels():
     ln_instance = LightningInstance()
     list_channels = ln_instance.list_channels()
     return list_channels
-
-@app.route('/rebalance_individual_channel', methods=['GET', 'POST'])
-def new_rebalance_individual_channel():
-    if request.method == 'POST':
-        oscid = request.form["oscid"]
-        iscid = request.form["iscid"]
-        sats = request.form["amount"]
-        amount = str(int(sats) * 1000) +str('msat')
-        try:
-            ln_instance = LightningInstance()
-            result = ln_instance.rebalance_individual_channel(oscid, iscid, amount)
-            flash(Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {sats}sats'), 'success')
-        except Exception as e:
-            flash(Markup(e.args[0]), 'danger')
-    return render_template('rebalance_individual_channel.html')
 
 @app.route('/close/<string:peer_id>')
 def close(peer_id):
