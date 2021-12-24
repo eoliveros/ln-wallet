@@ -31,9 +31,11 @@
 			.then(data => {
 				if (data !== "error") {
 					console.log('Success:', data);
+					var convertedData = JSON.parse(data);
+					navigator.clipboard.writeText(convertedData["txid"]);
 					Swal.fire({
 						icon: 'success',
-						title: `${data}`,
+						title: 'Copied txid to clipboard',
 					})
 					.then(function(){
 						location.reload();
