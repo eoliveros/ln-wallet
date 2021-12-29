@@ -56,15 +56,15 @@
     }
 </script>
 <br>
-<h2>Create Invoice</h2>
-<p>Create a lightning network invoice.</p>
+<h2>Broadcast Signed PSBT</h2>
+<p>Broadcast a signed PSBT.</p>
 <div class="form-group">
   <label for="message" class="form-label mt-4">Signed PSBT</label>
-  <textarea class="form-control" aria-required=true placeholder="Enter message here." name="message" id="message" rows="3" required></textarea>
+  <textarea class="form-control" aria-required=true placeholder="Paste signed PSBT here." name="message" id="message" rows="3" required></textarea>
 </div>
 <div name="submit_Invoice" id="submit_Invoice">
   <a class="button submit" onclick="createInvoice()">
-    <button type="button" class="btn btn-primary btn-lg mt-3">Create Invoice</button>
+	  <button type="button" class="btn btn-primary btn-lg mt-3">Broadcast signed PSBT</button>
   </a>
 </div>
 {% endblock %}
