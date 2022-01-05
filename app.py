@@ -288,6 +288,11 @@ def key_send(node_id, sats):
     ln_instance = LightningInstance()
     return ln_instance.key_send(node_id, sats*1000)
 
+@app.route('/list_forwards')
+def list_forwards():
+    ln_instance = LightningInstance()
+    return ln_instance.list_forwards()
+
 
 '''
 socket-io notifications

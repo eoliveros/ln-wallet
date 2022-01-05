@@ -124,3 +124,6 @@ class LightningInstance():
     def key_send(self, node_id, msats):
         return self.instance.keysend(node_id, msats)
 
+    def list_forwards(self):
+        return self.instance.listforwards()
+
