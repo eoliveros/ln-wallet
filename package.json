@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"psbt": "latest",
+		"raw-transaction-hex-decoder": "latest"
+	}
+}

@@ -85,3 +85,7 @@ clightning_bitcoin container:
 - send very small amount to test to make sure that it would show up in the index.html after its confirmed.
   lightning-cli --testnet  --conf=/root/.lightning/config --rpc-file=/root/.lightning/lightning-rpc listfunds
 When this shows as confirmed, it would then appear in the balance(app).
+
+# Node.js Script
+
+* Browserify + Node.js is being used to package a node script for decodingPSBT amounts to be shown on SweetAlert notfications for PSBT endpoints
