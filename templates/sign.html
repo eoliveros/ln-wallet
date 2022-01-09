@@ -4,12 +4,13 @@
 <script src="{{ url_for('static',filename='assets/js/qrcode.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ url_for('static',filename='assets/css/sweetalert2.min.css') }}"></script>
+<script src="{{ url_for('static',filename='assets/js/psbt-amount-browserified.js') }}"></script>
 <script>
     const createInvoice = function() {
         var unsignedPsbt = document.querySelector('#message').value;
         Swal.fire({
             title: 'Confirm Sign',
-            text: `Total BTC:'`,
+	    text: `Total BTC before fees: ${getUnsignedPSBTAmount.getUnsignedPSBTAmount(unsignedPsbt)}`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
