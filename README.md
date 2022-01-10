@@ -86,9 +86,9 @@ clightning_bitcoin container:
   lightning-cli --testnet  --conf=/root/.lightning/config --rpc-file=/root/.lightning/lightning-rpc listfunds
 When this shows as confirmed, it would then appear in the balance(app).
 
-# Node.js Script
+# Node.js Script for Decoding PSBT Output Amounts
 
-* Browserify + Node.js is being used to package a node script for decodingPSBT amounts to be shown on SweetAlert notfications for PSBT endpoints
+* Browserify + Node.js is being used to package a node script for decoding PSBT amounts to be shown on SweetAlert notfications for PSBT endpoints
 * The browserified script is kept in static/assets/js/psbt-amount-browserified.js
 * To update the script, first, if the node_modules/ folder is not present, run `npm i` in the base directory of the project, then run `browserify psbt-amount.js --s getUnsignedPSBTAmount -o static/assets/js/psbt-amount-browserified.js` after making changes to `getUnsignedPSBTAmount` in `psbt-amount.js`
-* After importing the script `psbt-amount-browserified.js`, it the function can be called in the jinja template by calling `getUnsignedPSBTAmount.getUnsignedPSBTAmount(psbtString);`
+* After importing the script `psbt-amount-browserified.js` using the `<script>` tag in your chosen jinja template, the function can be called by invoking `getUnsignedPSBTAmount.getUnsignedPSBTAmount(psbtString);`
