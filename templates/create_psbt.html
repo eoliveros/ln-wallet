@@ -39,6 +39,7 @@
 			requestLoad.push(outputObj);
 			totalBtc += parseFloat(paymentFields[i+1].value);
 		}
+		totalBtc = Math.round(totalBtc * 100000000) / 100000000;
 		Swal.fire({
 			title: 'Confirm Transaction',
 			text: `Total: ₿${totalBtc}`,
