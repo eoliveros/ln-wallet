@@ -283,10 +283,22 @@ def get_fee():
 def send_node():
     return render_template("send_node.html")
 
-@app.route('/keysend/<string:node_id>/<int:sats>')
-def key_send(node_id, sats):
+@app.route('/keysend', strict_slashes=False)
+@app.route('/keysend/<node_id>', strict_slashes=False)
+@app.route('/keysend/<node_id>/<sats>', strict_slashes=False)
+def key_send(node_id=None, sats=None):
     ln_instance = LightningInstance()
-    return ln_instance.key_send(node_id, sats*1000)
+    if (node_id is None) or (sats is None):
+        return "Please check that node_id or sats is not empty"
+    else:
+        try:
+            #sats = int(sats)
+            return ln_instance.key_send(node_id, sats*1000)
+        except ValueError:
+            return "Please check that sats is a valid integer"
+        except Exception as e:
+            return str(e)
+    return "test"
 
 @app.route('/list_forwards')
 def list_forwards():
