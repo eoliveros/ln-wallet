@@ -293,13 +293,13 @@ def send_node():
 @app.route('/keysend/<node_id>', strict_slashes=False)
 @app.route('/keysend/<node_id>/<sats>', strict_slashes=False)
 def key_send(node_id=None, sats=None):
-    ln_instance = LightningInstance()
     if (node_id is None) or (sats is None):
         return "Please check that node_id or sats is not empty"
     elif ("@" in str(node_id)) or (":" in str(node_id)):
         return "Please enter just the node pubkey, NOT pubkey@ip:protocol"
     else:
         try:
+            ln_instance = LightningInstance()
             return ln_instance.key_send(str(node_id), int(sats)*1000)
         except ValueError:
             return "Please check that sats is a valid integer"
