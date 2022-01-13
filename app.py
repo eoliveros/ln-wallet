@@ -290,15 +290,16 @@ def key_send(node_id=None, sats=None):
     ln_instance = LightningInstance()
     if (node_id is None) or (sats is None):
         return "Please check that node_id or sats is not empty"
+    elif ("@" in str(node_id)) or (":" in str(node_id)):
+        return "Please enter just the node pubkey, NOT pubkey@ip:protocol"
     else:
         try:
-            #sats = int(sats)
-            return ln_instance.key_send(node_id, sats*1000)
+            return ln_instance.key_send(str(node_id), int(sats)*1000)
         except ValueError:
             return "Please check that sats is a valid integer"
         except Exception as e:
             return str(e)
-    return "test"
+    return "Something went wrong"
 
 @app.route('/list_forwards')
 def list_forwards():
