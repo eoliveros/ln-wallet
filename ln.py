@@ -8,6 +8,7 @@ import pytz
 
 from pyln.client import LightningRpc
 
+
 class LightningInstance():
     def __init__(self):
         if 'RPC_FILE' in os.environ:
@@ -20,12 +21,15 @@ class LightningInstance():
 
     def create_invoice(self, amount, msg):
         # create a LN invoice
-        return self.instance.invoice(amount, "lbl{}".format(random.random()), msg)
+        return self.instance.invoice(
+            amount, "lbl{}".format(
+                random.random()), msg)
 
     def send_invoice(self, bolt11):
         # pay a bolt11 invoice
         invoice_result = self.instance.pay(bolt11)
-        invoice_result["sats_sent"] = int(invoice_result["msatoshi_sent"] / 1000)
+        invoice_result["sats_sent"] = int(
+            invoice_result["msatoshi_sent"] / 1000)
         return invoice_result
 
     def payment_status(self, bolt11string):
@@ -38,11 +42,16 @@ class LightningInstance():
         list_pays = self.instance.listpays()
         for list_pay in list_pays["pays"]:
             created_at = list_pay["created_at"]
-            date = datetime.datetime.fromtimestamp(list_pay["created_at"], pytz.timezone('Pacific/Auckland'))
+            date = datetime.datetime.fromtimestamp(
+                list_pay["created_at"], pytz.timezone('Pacific/Auckland'))
             status = list_pay["status"]
             amount_msat = list_pay["amount_sent_msat"]
-            amount_sats = int(round(int(list_pay["amount_sent_msat"])/1000))
-            results.append({"created_at": created_at, "date": date, "status": status, "amount_msat": amount_msat, "amount_sats": amount_sats})
+            amount_sats = int(round(int(list_pay["amount_sent_msat"]) / 1000))
+            results.append({"created_at": created_at,
+                            "date": date,
+                            "status": status,
+                            "amount_msat": amount_msat,
+                            "amount_sats": amount_sats})
         return results
 
     def list_nodes(self):
@@ -78,21 +87,27 @@ class LightningInstance():
         sats_channel = 0
         sats_onchain = 0
         results = []
-        ### Only shows after the very first transaction otherwise errors.
+        # Only shows after the very first transaction otherwise errors.
         for i in range(len(funds_dict["channels"])):
-            funds_channel += int(str(funds_dict["channels"][i]["our_amount_msat"]).split("msat", 1)[0])
-        sats_channel += int(funds_channel / 1000) 
+            funds_channel += int(str(funds_dict["channels"]
+                                 [i]["our_amount_msat"]).split("msat", 1)[0])
+        sats_channel += int(funds_channel / 1000)
         for i in range(len(funds_dict["outputs"])):
             if funds_dict["outputs"][i]["status"] == "confirmed":
-                funds_onchain += int(str(funds_dict["outputs"][i]["amount_msat"]).split("msat", 1)[0])
+                funds_onchain += int(str(funds_dict["outputs"]
+                                     [i]["amount_msat"]).split("msat", 1)[0])
         sats_onchain += int(funds_onchain / 1000)
-        return({"funds_channel" : funds_channel, "funds_onchain" : funds_onchain, "sats_channel" : sats_channel, "sats_onchain" : sats_onchain})
-    
+        return({"funds_channel": funds_channel, "funds_onchain": funds_onchain, "sats_channel": sats_channel, "sats_onchain": sats_onchain})
+
     def decode_pay(self, bolt11):
         bolt11_result = self.instance.decodepay(bolt11)
-        amount_sats = int(int(str(bolt11_result["amount_msat"]).split("msat", 1)[0]) / 1000)
-        return {"amount" : amount_sats, "description" : bolt11_result["description"], "payee" : bolt11_result["payee"] }
-    
+        amount_sats = int(
+            int(str(bolt11_result["amount_msat"]).split("msat", 1)[0]) / 1000)
+        return {
+            "amount": amount_sats,
+            "description": bolt11_result["description"],
+            "payee": bolt11_result["payee"]}
+
     def wait_any(self):
         invoice_list = self.list_paid()
         last_index = len(invoice_list)
@@ -126,4 +141,3 @@ class LightningInstance():
 
     def list_forwards(self):
         return self.instance.listforwards()
-
