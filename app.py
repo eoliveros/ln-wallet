@@ -1,3 +1,5 @@
+
+""" This is the main Flask component """
 import os
 import json
 import qrcode
@@ -25,6 +27,7 @@ else:
 
 
 def qrcode_svg_create(data):
+    """ Returns SVG of input data """
     factory = qrcode.image.svg.SvgPathImage
     img = qrcode.make(data, image_factory=factory, box_size=35)
     output = io.BytesIO()
@@ -34,6 +37,7 @@ def qrcode_svg_create(data):
 
 
 def qrcode_svg_create_ln(data):
+    """ Returns SVG of input data (LN focused) """
     factory = qrcode.image.svg.SvgPathImage
     img = qrcode.make(data, image_factory=factory, box_size=10)
     output = io.BytesIO()
@@ -43,17 +47,19 @@ def qrcode_svg_create_ln(data):
 
 
 def check_nodes():
+    """ Returns a list of nodes """
     ln_instance = LightningInstance()
-    list_nodes = ln_instance.list_nodes()
-    return list_nodes
+    listed_nodes = ln_instance.list_nodes()
+    return listed_nodes
 
 
 @app.route('/')
 def index():
+    """ Returns index template """
     ln_instance = LightningInstance()
     funds_dict = ln_instance.list_funds()
-    list_nodes = check_nodes()
-    number_nodes = len(list_nodes["nodes"])
+    listed_nodes = check_nodes()
+    number_nodes = len(listed_nodes["nodes"])
     if number_nodes < 1:
         # ideas we could get the blockstream address and set it statically
         if os.getenv("NODE_ADDRESS"):
@@ -61,7 +67,9 @@ def index():
             node_address = os.getenv("NODE_ADDRESS")
         # testnet node
         else:
-            node_address = '02312627fdf07fbdd7e5ddb136611bdde9b00d26821d14d94891395452f67af248@23.237.77.12:9735'
+            node_address = ('02312627fdf07fbdd7e5ddb1'
+            + '36611bdde9b00d26821d14d94891'
+            + '395452f67af248@23.237.77.12:9735')
         try:
             ln_instance = LightningInstance()
             result = ln_instance.connect_nodes(node_address)
@@ -73,12 +81,14 @@ def index():
 
 @app.route('/lightningd_getinfo')
 def lightningd_getinfo_ep():
+    """ Returns template with info about lightningd"""
     info = LightningInstance().get_info()
     return render_template('lightningd_getinfo.html', info=info)
 
 
 @app.route('/send_bitcoin')
 def send_bitcoin():
+    """ Returns template for sending BTC """
     ln_instance = LightningInstance()
     onchain = int(ln_instance.list_funds()["sats_onchain"]) / 100000000
     return render_template(
@@ -89,6 +99,7 @@ def send_bitcoin():
 
 @app.route('/create_psbt')
 def create_psbt():
+    """ Returns template for creating a PSBT """
     ln_instance = LightningInstance()
     onchain = int(ln_instance.list_funds()["sats_onchain"]) / 100000000
     return render_template(
@@ -99,6 +110,7 @@ def create_psbt():
 
 @app.route('/list_txs')
 def list_txs():
+    """ Returns template of on-chain txs """
     ln_instance = LightningInstance()
     transactions = ln_instance.list_txs()
     sorted_txs = sorted(
@@ -117,6 +129,7 @@ def list_txs():
 
 @app.route('/new_address')
 def new_address_ep():
+    """ Returns template showing a new address created by our HD wallet """
     ln_instance = LightningInstance()
     address = ln_instance.new_address()
     return render_template("new_address.html", address=address)
@@ -124,11 +137,13 @@ def new_address_ep():
 
 @app.route('/ln_invoice', methods=['GET'])
 def ln_invoice():
+    """ Returns template for creating lightning invoices """
     return render_template("ln_invoice.html")
 
 
 @app.route('/create_invoice/<int:amount>/<string:message>/')
 def create_invoice(amount, message):
+    """ Returns template showing a created invoice from the inputs """
     ln_instance = LightningInstance()
     bolt11 = ln_instance.create_invoice(int(amount * 1000), message)["bolt11"]
     qrcode_svg = qrcode_svg_create_ln(bolt11)
@@ -140,11 +155,13 @@ def create_invoice(amount, message):
 
 @app.route('/pay_invoice', methods=['GET'])
 def pay_invoice():
+    """ Returns template for paying LN invoices """
     return render_template("pay_invoice.html")
 
 
 @app.route('/pay/<string:bolt11>')
 def pay(bolt11):
+    """ Returns template showing a paid LN invoice """
     ln_instance = LightningInstance()
     try:
         invoice_result = ln_instance.send_invoice(bolt11)
@@ -155,11 +172,13 @@ def pay(bolt11):
 
 @app.route('/pay_error')
 def pay_error():
+    """ Returns template for a generic pay error """
     return render_template("pay_error.html")
 
 
 @app.route('/invoices', methods=['GET'])
 def invoices():
+    """ Returns template listing all LN paid invoices """
     ln_instance = LightningInstance()
     paid_invoices = ln_instance.list_paid()
     return render_template("invoices.html", paid_invoices=paid_invoices)
@@ -167,11 +186,13 @@ def invoices():
 
 @app.route('/channel_opener', methods=['GET'])
 def channel_opener():
+    """ Returns template for opening LN channels """
     return render_template("channel_opener.html")
 
 
 @app.route('/open_channel/<string:node_pubkey>/<int:amount>', methods=['GET'])
 def open_channel(node_pubkey, amount):
+    """ Opens a LN channel """
     ln_instance = LightningInstance()
     try:
         ln_instance.connect_nodes(node_pubkey)
@@ -187,6 +208,7 @@ def open_channel(node_pubkey, amount):
 
 @app.route('/list_peers', methods=['GET', 'POST'])
 def list_peers():
+    """ Returns a template listing all connected LN peers """
     ln_instance = LightningInstance()
     if request.method == 'POST':
         oscid = request.form["oscid"]
@@ -198,7 +220,9 @@ def list_peers():
             result = ln_instance.rebalance_individual_channel(
                 oscid, iscid, amount)
             flash(
-                Markup(f'successfully move funds from: {oscid} to: {iscid} with the amount: {sats}sats'),
+                Markup(f'successfully move funds from:'
+                + '{oscid} to: {iscid} with the amount:'
+                + '{sats}sats'),
                 'success')
         except Exception as e:
             flash(Markup(e.args[0]), 'danger')
