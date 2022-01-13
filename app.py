@@ -262,11 +262,17 @@ def get_status(bolt11):
     status = ln_instance.payment_status(bolt11)
     return render_template("status.html", status=status)
 
-@app.route('/decode_pay/<string:bolt11>')
-def decode_pay(bolt11):
-    ln_instance = LightningInstance()
-    decodedpay = ln_instance.decode_pay(bolt11)
-    return decodedpay
+@app.route('/decode_pay', strict_slashes=False)
+@app.route('/decode_pay/<bolt11>', strict_slashes=False)
+def decode_pay(bolt11=None):
+    if bolt11 is None:
+        return "Please enter a non-empty bolt11 string"
+    try:
+        ln_instance = LightningInstance()
+        return ln_instance.decode_pay(str(bolt11))
+    except Exception as e:
+        return str(e)
+    return "Something went wrong"
 
 @app.route('/waitany')
 def wait_any():
