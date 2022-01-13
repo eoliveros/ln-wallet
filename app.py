@@ -256,11 +256,18 @@ def sign_psbt():
         tx_result = str(e)
     return tx_result
 
-@app.route('/status/<string:bolt11>')
-def get_status(bolt11):
-    ln_instance = LightningInstance()
-    status = ln_instance.payment_status(bolt11)
-    return render_template("status.html", status=status)
+@app.route('/status', strict_slashes=False)
+@app.route('/status/<bolt11>', strict_slashes=False)
+def get_status(bolt11=None):
+    if bolt11 is None:
+        return "Please enter a non-empty bolt11 string"
+    try:
+        ln_instance = LightningInstance()
+        status = ln_instance.payment_status(str(bolt11))
+        return render_template("status.html", status=status)
+    except Exception as e:
+        return str(e)
+    return "Something went wrong"
 
 @app.route('/decode_pay', strict_slashes=False)
 @app.route('/decode_pay/<bolt11>', strict_slashes=False)
